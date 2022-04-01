@@ -1,0 +1,274 @@
+%%%%%%%%%%%%%%%%%%%%
+% Copyright and authorship: Fernando Oleo Blanco.
+%
+% Thanks to all the people that helped me get to where I am.
+% Free use, just acknowledge the authors.
+%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%
+% IMPORTANT
+% THIS DOCUMENT REQUIRES LuaLaTeX AS THE PROCESSING ENGINE
+% SOME "SPECIAL" VARIABLES HAVE BEEN SET AT THE BOTTOM OF THE FILE TO HELP
+% IT SHOULD WORK AUTOMATICALLY WITH TeXstudio AND Emacs
+%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[12pt, a4paper]{book} % General document definition. In order to have the text completely centered, do not use the twoside option; however, twoside is recommended for printing.
+
+% For general information and help about LaTeX, refer to https://www.overleaf.com/learn
+
+%%% PACKAGES
+
+%% General packages
+
+\usepackage[utf8]{inputenc} % Set the utf8 input encoding
+\usepackage[]{polyglossia}
+\setdefaultlanguage[variant=british]{english} % Adds localization support to XeTeX and LuaLaTeX. Replaces babel!
+% Select your prefered language. Example: \usepackage[activeacute, spanish]{polyglossia}
+% IMPORTANT: if you compile the document with one language (say english) and then change it to another, the automatically generated files in the directory need to be deleted! Especially the .aux file!
+% IMPORTANT: the package "polyglossia" only works in XeLaTeX and LuaLaTeX
+% If you are using another LaTeX engine, please, use "babel"
+
+%% Structure, design and style packages
+
+\usepackage{geometry} % To modify the geometry of pages (margins and other lengths)
+\usepackage{fancyhdr} % Header and footer customization
+\usepackage{hyperref} % "Advance" and easier referencing
+\usepackage{titlesec} % Section title and structure customization
+\usepackage{pdflscape} % Add the \begin{landscape} environment
+\usepackage{lipsum} % Dummy text to test the design
+\usepackage{listings} % To add and format code. See the documentation and the Wikibook entry for more information
+\usepackage{enumitem} % Customization options for environments related to enumerations (such as descriptions). It can also customise alignments
+
+% Glossaries
+\usepackage[toc, acronym, style=super, nopostdot]{glossaries} % Add glossaries. Read the documentation
+\usepackage{glossaries-extra} % Add extra glossaries features
+
+% Graphics and general symbols
+\usepackage[svgnames]{xcolor} % Adds more colors to the available list. It has to be loaded before any pgf package
+\usepackage{graphicx} % Graphics import and tools
+\usepackage{svg} % To work with svg imports. It requires some setup, read the documentation
+\usepackage[final]{pdfpages} % Includes pdfs directly, not as images
+\usepackage{pgf} % Package to create graphics
+\usepackage{eurosym} % Official Euro symbol
+
+% Fonts
+\usepackage{csquotes} %
+\usepackage{fontspec} % Adds font management. Requires XeTeX or LuaTeX
+\usepackage{luabidi} % Enables bidirectional text in LuaLaTeX. If you are using another engine, use the package below
+% \usepackage{bidi} % Enables bidirectional code. Requires XeTeX
+\usepackage{microtype} % Micro-typographic extentions. It is better with XeTeX or LuaLaTeX
+\usepackage{lettrine} % Dropped capitals styles
+\usepackage{pgfornament} % Adds ornaments
+\usepackage{psvectorian} % Adds even more ornaments
+
+% Tables
+\usepackage{booktabs} % To create beautiful tables
+\usepackage{xltabular} % Adds tables with more functionallity. Please, read the documentation
+\usepackage{multicol} % To output text in two or more columns
+\usepackage{multirow} % To output text in two or more rows
+
+% Bibliography
+\usepackage[backend=biber,
+			style=numeric,
+			citestyle=numeric,
+			sorting=none]{biblatex}
+        % Citation configuration. We use biblatex, which is more
+        % complex, but as customizable as it gets.
+        % Please, modify this to your liking.
+        % IMPORTANT: this requires biber to be installed and run every time
+        % you change the .bib file! To make it easier, if you are using TeXStudio, do the following:
+        % 1. Go to options. 2. Select the Build menu. 3 In standard bibliography, change bibtex to biber. 4. Profit
+        % These changes will allow the editor to detect any changes and "recompile" the files if needed.
+        % For other editors see: https://tex.stackexchange.com/questions/154751/biblatex-with-biber-configuring-my-editor-to-avoid-undefined-citations
+        % See link for a quick introduction: https://tex.stackexchange.com/questions/26516/how-to-use-biber/34136
+        % If you are having issues with the bibliography, please, search for how to install and run biber!
+
+        % Specialised packages. Please, read their documentation as they provide a lot of functionallity.
+
+%% Technical and scientific packages
+
+\usepackage{amsmath, amsfonts, amssymb} % Mathematical notation
+\usepackage[lined, ruled]{algorithm2e} % To write beautiful algorithms
+\usepackage{pgfplots} % Create native LaTeX looking plots (several backends available)
+\usepackage{pgfplotstable} % Add table manipulation utillities, very useful for tabulated data
+\usepackage{siunitx} % Write Units in accordance with the SI organization
+\usepackage{circuitikz} % Draw electrical circuit diagrams
+
+%% Miscellanea
+
+\usepackage{todonotes} % Create graphical TODO entries
+\usepackage{watermark} % Watermarks
+
+%%% PACKAGE CONFIGURATION
+
+% Bibliography resource
+\addbibresource{main.bib}
+\renewcommand*{\nameyeardelim}{\addcomma\addspace} % To add a coma after et al. -> et al.,
+
+% Header and footer customization
+\fancyhf{}
+\fancyhead[LE]{\slshape \leftmark}
+\fancyhead[RO]{\slshape \nouppercase \rightmark}
+\fancyfoot[LE, RO]{\thepage}
+% IMPORTANT! If your chapter/section names are too long to nicely fit on the header, use the shortened variant:
+% \chapter[short tile]{actual long title} or \section[short title]{actual long title, title}
+
+% Listing
+% Inspiration taken from https://gitlab.inria.fr/gustedt/modern-c/-/blob/master/listings-modernC.sty
+\lstset{
+	backgroundcolor=\color{light-gray}, % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}; should come as last argument
+	basicstyle=\small\ttfamily,      % the size of the fonts that are used for the code
+	breakatwhitespace=true,          % sets if automatic breaks should only happen at whitespace
+	breaklines=true,                 % sets automatic line breaking
+	captionpos=b,                    % sets the caption-position to bottom
+	columns=fixed,                   % taken from the Modern C book (see listings-modernC.sty)
+	commentstyle=\color{lightmagenta}, % comment style
+	deletekeywords={...},            % if you want to delete keywords from the given language
+	escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+	extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+	firstnumber=0,                   % start line enumeration with line 1000
+	frame=single,                    % adds a frame around the code
+	identifierstyle=\ttfamily\color{darkblue},
+	keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+	keywordstyle=\color{blue},       % keyword style
+    %	language=Octave,                 % the language of the code
+	morekeywords={*,...},            % if you want to add more keywords to the set
+	numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+	numbersep=5pt,                   % how far the line-numbers are from the code
+	numberstyle=\tiny\color{gray},   % the style that is used for the line-numbers
+	rulecolor=\color{gray},          % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+	showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+	showstringspaces=false,          % underline spaces within strings only
+	showtabs=false,                  % show tabs within strings adding particular underscores
+	stepnumber=5,                    % the step between two line-numbers. If it's 1, each line will be numbered
+	stringstyle=\ttfamily\color{darkbrown},         % string literal style
+	tabsize=4,                       % sets default tabsize to 2 spaces
+	title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+
+% SVG imports
+\svgsetup{inkscape=true}
+
+% Algorithm global options
+\DontPrintSemicolon
+
+%%% CUSTOM COMMANDS
+
+% Add abstract environment to book style
+\newenvironment{abstract}%
+{\cleardoublepage \null \vfill \begin{center}%
+		\bfseries \abstractname \end{center}}%
+{\vfill\null}
+
+%%% Acronyms and glossary
+
+%% Acronyms
+\newacronym{FIB}{FIB}{Focused Ion Beam}
+
+%% Glossary terms
+
+\newglossaryentry{timestepval}
+{
+	name={\ensuremath{x_t}},
+	description={Value of variable $x$ at time step \ensuremath{t}}
+}
+
+% Force processing
+\makeglossaries
+
+%%% DOCUMENT
+
+\begin{document}
+
+	\frontmatter % First few pages
+	\pagestyle{empty} % We suppress the "fancy" hearders in the front matter
+
+% This creates a basic title page based on the one proposed by Comillas University.
+	\begin{titlepage}
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.3\linewidth]{LogoUniversidadBN}
+		\end{figure}
+		\centering
+		\Large Degree in Industrial Technologies \\ % Modify accordingly
+		\vspace*{2.5em} % This just adds some vertical spacing
+		\centering
+		Bachelor's or Master's final project \\ % Modify accordingly
+		\vspace*{1em}
+		This is the title of your project % Write here the title of your study
+		\\ \large
+		\vspace*{3em}
+		Author \\ Author's Name \\ % Your name
+		\vspace*{1em}
+		Supervised by \\ Supervisors' Names % Supervisor(s) name(s)
+% {\vfill \vspace*{3em}{Author's signature:\hrulefill \hfill} \hfill \\ \vspace*{4em}Supervisors' signatures:\hrulefill \hfill} % Uncoment this line if you would like to add a signature space
+		\vfill
+		Madrid \\
+		May 2020 % Modify accordingly
+	\end{titlepage}
+
+	% Write your abstract
+	\begin{abstract}
+		Abstract content
+	\end{abstract}
+
+	\newpage
+
+	% Coment this block if you don't want a general information page
+	% Thanks and other information page
+	{\centering Thank yous\\}
+	\vfill % Fill the page with whitespace (this is just for aesthetical reasons)
+	And other important information
+
+	\cleardoublepage % New page starts on the right hand side
+
+	\tableofcontents % Create the index
+	\listoffigures % Create index of figures
+	\listoftables % Create index of tables
+	\lstlistoflistings % Create index for code sections
+	\listofalgorithms % Create index for algorithms
+	\printglossary \label{glossaries} % Create glossary enty
+	\printglossary[type=\acronymtype] % Create acronym entry
+
+	\cleardoublepage % Open on right hand page (odd numbered)
+
+	\mainmatter
+
+	% Activate customized headers
+	\pagestyle{fancy}
+
+	\include{Chapter1/chapter1} % This is the way we should import files and partition our document.
+
+	%% Include more chapters and or documents.
+
+	\appendix
+
+	%% Include appendixes
+
+	\cleardoublepage
+
+% We print the entire bibliography of the document. The author recommends that, if the document contains tremendous amounts of references, that they should be written at the end of each chapter. Refer to https://www.overleaf.com/learn/latex/Bibliography_management_in_LaTeX for more information.
+	\printbibliography[heading=bibintoc]
+
+	\backmatter
+
+%	\glsaddallunused % Force the appearance of all the acronyms and glossary terms even if they are not used
+
+\end{document}
+
+%%%
+% Here we leave a few variables that help editors select the correct TeX engine
+%%%
+
+% Emacs setup
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-engine: luatex
+%%% TeX-master: t
+%%% End:
+
+% TeXstudio setup
+
+% !TeX program = lualatex
