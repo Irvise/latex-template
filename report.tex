@@ -7,7 +7,7 @@
 
 %%%%%%%%%%%%%%%%%%%%
 % IMPORTANT
-% THIS DOCUMENT REQUIRES LuaLaTeX AS THE PROCESSING ENGINE
+% THIS DOCUMENT REQUIRES LuaLaTeX OR XeLaTeX AS THE PROCESSING ENGINE
 % SOME "SPECIAL" VARIABLES HAVE BEEN SET AT THE BOTTOM OF THE FILE TO HELP
 % IT SHOULD WORK AUTOMATICALLY WITH TeXstudio AND Emacs
 %%%%%%%%%%%%%%%%%%%%
@@ -50,11 +50,13 @@
 \usepackage[final]{pdfpages} % Includes pdfs directly, not as images
 \usepackage{pgf} % Package to create graphics
 \usepackage{eurosym} % Official Euro symbol
+\usepackage{dirtree} % Create directory structures
 
 % Fonts
 \usepackage{csquotes} %
 \usepackage{fontspec} % Adds font management. Requires XeTeX or LuaTeX
-\usepackage{luabidi} % Enables bidirectional text in LuaLaTeX. If you are using another engine, use the package below
+% Uncomment one of the following packages if you need bidirectional text
+% \usepackage{luabidi} % Enables bidirectional text in LuaLaTeX. If you are using another engine, use the package below
 % \usepackage{bidi} % Enables bidirectional code. Requires XeTeX
 \usepackage{microtype} % Micro-typographic extentions. It is better with XeTeX or LuaLaTeX
 \usepackage{lettrine} % Dropped capitals styles
@@ -262,9 +264,9 @@
 
 % Emacs setup
 
-
 %%% Local Variables:
 %%% mode: latex
+%%% coding: utf-8
 %%% TeX-engine: luatex
 %%% TeX-master: t
 %%% End:
