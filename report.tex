@@ -20,7 +20,7 @@
 
 %% General packages
 
-\usepackage[utf8]{inputenc} % Set the utf8 input encoding
+%\usepackage[utf8]{inputenc} % Set the utf8 input encoding. Only needed for basic LaTeX
 \usepackage[]{polyglossia}
 \setdefaultlanguage[variant=british]{english} % Adds localization support to XeTeX and LuaLaTeX. Replaces babel!
 % Select your prefered language. Example: \usepackage[activeacute, spanish]{polyglossia}
@@ -38,23 +38,25 @@
 \usepackage{lipsum} % Dummy text to test the design
 \usepackage{listings} % To add and format code. See the documentation and the Wikibook entry for more information
 \usepackage{enumitem} % Customization options for environments related to enumerations (such as descriptions). It can also customise alignments
+\usepackage{subcaption} % Allows to have several captions for a single Figure, Table, etc environment
 
 % Glossaries
 \usepackage[toc, acronym, style=super, nopostdot]{glossaries} % Add glossaries. Read the documentation
 \usepackage{glossaries-extra} % Add extra glossaries features
+\usepackage{glossary-longbooktabs} % Add extra glossary style that I personally like
 
 % Graphics and general symbols
-\usepackage[svgnames]{xcolor} % Adds more colors to the available list. It has to be loaded before any pgf package
+\usepackage[svgnames, table]{xcolor} % Adds more colors to the available list. It has to be loaded before any pgf package
 \usepackage{graphicx} % Graphics import and tools
-\usepackage{svg} % To work with svg imports. It requires some setup, read the documentation
 \usepackage[final]{pdfpages} % Includes pdfs directly, not as images
 \usepackage{pgf} % Package to create graphics
 \usepackage{eurosym} % Official Euro symbol
 \usepackage{dirtree} % Create directory structures
 
 % Fonts
-\usepackage{csquotes} %
+\usepackage{csquotes} % Enhances quotations
 \usepackage{fontspec} % Adds font management. Requires XeTeX or LuaTeX
+% \usepackage{unicode-math} % Recomended package to change the mathematical font. HOWEVER, it may introduce rendering issues, such as tildes not appearing where they should. Use with caution!
 % Uncomment one of the following packages if you need bidirectional text
 % \usepackage{luabidi} % Enables bidirectional text in LuaLaTeX. If you are using another engine, use the package below
 % \usepackage{bidi} % Enables bidirectional code. Requires XeTeX
@@ -65,14 +67,14 @@
 
 % Tables
 \usepackage{booktabs} % To create beautiful tables
-\usepackage{xltabular} % Adds tables with more functionallity. Please, read the documentation
+\usepackage{xltabular} % Adds tables with the longtable and tabularx functionallity
 \usepackage{multicol} % To output text in two or more columns
 \usepackage{multirow} % To output text in two or more rows
+\usepackage{tablefootnote} % Allows footnotes to appear in tables. The hyperlinks may not work correctly, read the documentation
 
 % Bibliography
 \usepackage[backend=biber,
 			style=numeric,
-			citestyle=numeric,
 			sorting=none]{biblatex}
         % Citation configuration. We use biblatex, which is more
         % complex, but as customizable as it gets.
@@ -93,18 +95,24 @@
 \usepackage[lined, ruled]{algorithm2e} % To write beautiful algorithms
 \usepackage{pgfplots} % Create native LaTeX looking plots (several backends available)
 \usepackage{pgfplotstable} % Add table manipulation utillities, very useful for tabulated data
-\usepackage{siunitx} % Write Units in accordance with the SI organization
+\usepackage{siunitx} % Write Units in accordance with the SI organization and typeset numbers
 \usepackage{circuitikz} % Draw electrical circuit diagrams
+\usepackage{calc} % Perform calculations inside LaTeX. Very useful for widths with \widthof{}
 
 %% Miscellanea
 
 \usepackage{todonotes} % Create graphical TODO entries
 \usepackage{watermark} % Watermarks
+\usepackage{dpfloat} % Put content on the left page and on the right. Great for side-by-side comparisons. The environments are \begin{leftfullpage} and \begin{fullpage} and they need to go inside the floating environments
+\usepackage{float} % Create and manipulate floats
+\usepackage{placeins} % Do not let floats move further than were \FloatBarrier appears!
+\usepackage[nameinlink]{cleveref} % Better referencing that default LaTeX or \hyperref. Must be loaded after hyperref and asmmath
 
 %%% PACKAGE CONFIGURATION
 
 % Bibliography resource
-\addbibresource{main.bib}
+\addbibresource{main.bib} % Read bibliography entries/database
+
 \renewcommand*{\nameyeardelim}{\addcomma\addspace} % To add a coma after et al. -> et al.,
 
 % Header and footer customization
@@ -148,11 +156,11 @@
 	title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
 }
 
-% SVG imports
-\svgsetup{inkscape=true}
-
 % Algorithm global options
 \DontPrintSemicolon
+
+% Fix positioning for algorith2e
+\newfloat{genericfloat}{tbhp}{lop} % Added due to bad interaction between dpfloat and algorithm2e
 
 %%% CUSTOM COMMANDS
 
@@ -161,6 +169,18 @@
 {\cleardoublepage \null \vfill \begin{center}%
 		\bfseries \abstractname \end{center}}%
 {\vfill\null}
+
+% Hide environments
+
+% Hide plots to speed up processing by uncommenting the following line
+\newif\ifhidepgfplots
+%\hidepgfplotstrue % Comment to hide plots
+\ifhidepgfplots
+ \usepackage{environ}
+ \NewEnviron{hide}{}
+ \let\tikzpicture\hide
+ \let\endtikzpicture\endhide
+\fi
 
 %%% Acronyms and glossary
 
@@ -175,7 +195,7 @@
 	description={Value of variable $x$ at time step \ensuremath{t}}
 }
 
-% Force processing
+% Force processing of glossaries
 \makeglossaries
 
 %%% DOCUMENT
@@ -209,18 +229,18 @@
 		May 2020 % Modify accordingly
 	\end{titlepage}
 
-	% Write your abstract
-	\begin{abstract}
-		Abstract content
-	\end{abstract}
-
-	\newpage
-
-	% Coment this block if you don't want a general information page
+	% Coment this block if you don't want a dedication and prelude information page
 	% Thanks and other information page
 	{\centering Thank yous\\}
 	\vfill % Fill the page with whitespace (this is just for aesthetical reasons)
 	And other important information
+
+	\cleardoublepage
+
+	% Write your abstract
+	\begin{abstract}
+		Abstract content
+	\end{abstract}
 
 	\cleardoublepage % New page starts on the right hand side
 
