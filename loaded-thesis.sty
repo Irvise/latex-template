@@ -1,0 +1,141 @@
+%%%%%%%%%%%%%%%%%%%%
+% Copyright and authorship: Fernando Oleo Blanco.
+%
+% Thanks to all the people that helped me get to where I am.
+% Free use, just acknowledge the authors.
+%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%
+% IMPORTANT
+% THIS DOCUMENT REQUIRES LuaLaTeX OR XeLaTeX AS THE PROCESSING ENGINE
+% SOME "SPECIAL" VARIABLES HAVE BEEN SET AT THE BOTTOM OF THE FILE TO HELP
+% IT SHOULD WORK AUTOMATICALLY WITH TeXstudio AND Emacs
+%%%%%%%%%%%%%%%%%%%%
+
+%%% PACKAGES
+
+% Define generic metapackage
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{loaded-thesis}[2022/08/04 Provide metapackage for all the things!]
+
+%% General packages
+
+%\usepackage[utf8]{inputenc} % Set the utf8 input encoding. Only needed for basic LaTeX
+\usepackage[]{polyglossia}
+\setdefaultlanguage[variant=british]{english} % Adds localization support to XeTeX and LuaLaTeX. Replaces babel!
+% Select your prefered language. Example: \usepackage[activeacute, spanish]{polyglossia}
+% IMPORTANT: if you compile the document with one language (say english) and then change it to another, the automatically generated files in the directory need to be deleted! Especially the .aux file!
+% IMPORTANT: the package "polyglossia" only works in XeLaTeX and LuaLaTeX
+% If you are using another LaTeX engine, please, use "babel"
+
+%% Structure, design and style packages
+
+\usepackage{geometry} % To modify the geometry of pages (margins and other lengths)
+\usepackage{fancyhdr} % Header and footer customization
+\usepackage{hyperref} % "Advance" and easier referencing
+\usepackage{titlesec} % Section title and structure customization
+\usepackage{pdflscape} % Add the \begin{landscape} environment
+\usepackage{lipsum} % Dummy text to test the design
+\usepackage{listings} % To add and format code. See the documentation and the Wikibook entry for more information
+\usepackage{enumitem} % Customization options for environments related to enumerations (such as descriptions). It can also customise alignments
+\usepackage{subcaption} % Allows to have several captions for a single Figure, Table, etc environment
+
+% Glossaries
+\usepackage[toc, acronym, style=super, nopostdot]{glossaries} % Add glossaries. Read the documentation
+\usepackage{glossaries-extra} % Add extra glossaries features
+\usepackage{glossary-longbooktabs} % Add extra glossary style that I personally like
+
+% Graphics and general symbols
+\usepackage[svgnames, table]{xcolor} % Adds more colors to the available list. It has to be loaded before any pgf package
+\usepackage{graphicx} % Graphics import and tools
+\usepackage[final]{pdfpages} % Includes pdfs directly, not as images
+\usepackage{pgf} % Package to create graphics
+\usepackage{eurosym} % Official Euro symbol
+\usepackage{dirtree} % Create directory structures
+
+% Fonts
+\usepackage{csquotes} % Enhances quotations
+\usepackage{fontspec} % Adds font management. Requires XeTeX or LuaTeX
+% \usepackage{unicode-math} % Recomended package to change the mathematical font. HOWEVER, it may introduce rendering issues, such as tildes not appearing where they should. Use with caution!
+% Uncomment one of the following packages if you need bidirectional text
+% \usepackage{luabidi} % Enables bidirectional text in LuaLaTeX. If you are using another engine, use the package below
+% \usepackage{bidi} % Enables bidirectional code. Requires XeTeX
+\usepackage{microtype} % Micro-typographic extentions. It is better with XeTeX or LuaLaTeX
+\usepackage{lettrine} % Dropped capitals styles
+\usepackage{pgfornament} % Adds ornaments
+\usepackage{psvectorian} % Adds even more ornaments
+
+% Tables
+\usepackage{booktabs} % To create beautiful tables
+\usepackage{xltabular} % Adds tables with the longtable and tabularx functionallity
+\usepackage{multicol} % To output text in two or more columns
+\usepackage{multirow} % To output text in two or more rows
+\usepackage{tablefootnote} % Allows footnotes to appear in tables. The hyperlinks may not work correctly, read the documentation
+
+%% Technical and scientific packages
+
+\usepackage{amsmath, amsfonts, amssymb} % Mathematical notation
+\usepackage[lined, ruled]{algorithm2e} % To write beautiful algorithms
+\usepackage{pgfplots} % Create native LaTeX looking plots (several backends available)
+\usepackage{pgfplotstable} % Add table manipulation utillities, very useful for tabulated data
+\usepackage{siunitx} % Write Units in accordance with the SI organization and typeset numbers
+\usepackage{circuitikz} % Draw electrical circuit diagrams
+\usepackage{calc} % Perform calculations inside LaTeX. Very useful for widths with \widthof{}
+
+%% Miscellanea
+
+\usepackage{todonotes} % Create graphical TODO entries
+\usepackage{watermark} % Watermarks
+\usepackage{dpfloat} % Put content on the left page and on the right. Great for side-by-side comparisons. The environments are \begin{leftfullpage} and \begin{fullpage} and they need to go inside the floating environments
+\usepackage{float} % Create and manipulate floats
+\usepackage{placeins} % Do not let floats move further than were \FloatBarrier appears!
+\usepackage[nameinlink]{cleveref} % Better referencing that default LaTeX or \hyperref. Must be loaded after hyperref and asmmath
+
+%%% PACKAGE CONFIGURATION
+
+% Header and footer customization
+\fancyhf{}
+\fancyhead[LE]{\slshape \leftmark}
+\fancyhead[RO]{\slshape \nouppercase \rightmark}
+\fancyfoot[LE, RO]{\thepage}
+% IMPORTANT! If your chapter/section names are too long to nicely fit on the header, use the shortened variant:
+% \chapter[short tile]{actual long title} or \section[short title]{actual long title, title}
+
+% Listing
+% Inspiration taken from https://gitlab.inria.fr/gustedt/modern-c/-/blob/master/listings-modernC.sty
+\lstset{
+	backgroundcolor=\color{light-gray}, % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}; should come as last argument
+	basicstyle=\small\ttfamily,      % the size of the fonts that are used for the code
+	breakatwhitespace=true,          % sets if automatic breaks should only happen at whitespace
+	breaklines=true,                 % sets automatic line breaking
+	captionpos=b,                    % sets the caption-position to bottom
+	columns=fixed,                   % taken from the Modern C book (see listings-modernC.sty)
+	commentstyle=\color{lightmagenta}, % comment style
+	deletekeywords={...},            % if you want to delete keywords from the given language
+	escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+	extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+	firstnumber=0,                   % start line enumeration with line 1000
+	frame=single,                    % adds a frame around the code
+	identifierstyle=\ttfamily\color{darkblue},
+	keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+	keywordstyle=\color{blue},       % keyword style
+    %	language=Octave,                 % the language of the code
+	morekeywords={*,...},            % if you want to add more keywords to the set
+	numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+	numbersep=5pt,                   % how far the line-numbers are from the code
+	numberstyle=\tiny\color{gray},   % the style that is used for the line-numbers
+	rulecolor=\color{gray},          % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+	showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+	showstringspaces=false,          % underline spaces within strings only
+	showtabs=false,                  % show tabs within strings adding particular underscores
+	stepnumber=5,                    % the step between two line-numbers. If it's 1, each line will be numbered
+	stringstyle=\ttfamily\color{darkbrown},         % string literal style
+	tabsize=4,                       % sets default tabsize to 2 spaces
+	title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+
+% Algorithm global options
+\DontPrintSemicolon
+
+% Fix positioning for algorith2e
+\newfloat{genericfloat}{tbhp}{lop} % Added due to bad interaction between dpfloat and algorithm2e
