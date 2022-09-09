@@ -17,11 +17,13 @@
 % Read it to learn more about what you can do with LaTeX and how things are configured.
 %%%
 
-\documentclass[12pt, a4paper]{book} % General document definition. In order to have the text completely centered, do not use the twoside option; however, twoside is recommended for printing.
+% General document definition. In order to have the text completely centered, do not use the twoside option; however, twoside is recommended for printing.
+\documentclass[12pt, a4paper, twoside]{book}
 
 % For general information and help about LaTeX, refer to https://www.overleaf.com/learn
 
-%%% Load packages. Please, read the "loaded-thesis.sty" document to see what is actually loaded!
+%%% PACKAGES
+%Please, read the "loaded-thesis.sty" document to see what is actually loaded and how to use it!
 \usepackage{loaded-thesis}
 
 %% Bibliography configuration
@@ -29,18 +31,18 @@
 \usepackage[backend=biber,
 			style=numeric,
 			sorting=none]{biblatex}
-        % Citation configuration. We use biblatex, which is more
-        % complex, but as customizable as it gets.
-        % Please, modify this to your liking.
-        % IMPORTANT: this requires biber to be installed and run every time
-        % you change the .bib file! To make it easier, if you are using TeXStudio, do the following:
-        % 1. Go to options. 2. Select the Build menu. 3 In standard bibliography, change bibtex to biber. 4. Profit
-        % These changes will allow the editor to detect any changes and "recompile" the files if needed.
-        % For other editors see: https://tex.stackexchange.com/questions/154751/biblatex-with-biber-configuring-my-editor-to-avoid-undefined-citations
-        % See link for a quick introduction: https://tex.stackexchange.com/questions/26516/how-to-use-biber/34136
-        % If you are having issues with the bibliography, please, search for how to install and run biber!
+			% Citation configuration. We use biblatex, which is more
+			% complex, but as customizable as it gets.
+			% Please, modify this to your liking.
+			% IMPORTANT: this requires biber to be installed and run every time
+			% you change the .bib file! To make it easier, if you are using TeXStudio, do the following:
+			% 1. Go to options. 2. Select the Build menu. 3 In standard bibliography, change bibtex to biber. 4. Profit
+			% These changes will allow the editor to detect any changes and "recompile" the files if needed.
+			% For other editors see: https://tex.stackexchange.com/questions/154751/biblatex-with-biber-configuring-my-editor-to-avoid-undefined-citations
+			% See link for a quick introduction: https://tex.stackexchange.com/questions/26516/how-to-use-biber/34136
+			% If you are having issues with the bibliography, please, search for how to install and run biber!
 
-        % Specialised packages. Please, read their documentation as they provide a lot of functionallity.
+			% Specialised packages. Please, read their documentation as they provide a lot of functionallity.
 
 % Bibliography resource
 \addbibresource{main.bib} % Read bibliography entries/database
@@ -86,40 +88,14 @@
 %%% DOCUMENT
 
 \begin{document}
-
+	% Include the cover. Modify to your liking
+	\include{cover}
 	\frontmatter % First few pages
-	\pagestyle{empty} % We suppress the "fancy" hearders in the front matter
-
-% This creates a basic title page based on the one proposed by Comillas University.
-%	\begin{titlepage}
-		\begin{figure}
-			\centering
-			\includegraphics[width=0.3\linewidth]{LogoUniversidadBN}
-		\end{figure}
-		\centering
-		\Large Degree in Industrial Technologies \\ % Modify accordingly
-		\vspace*{2.5em} % This just adds some vertical spacing
-		\centering
-		Bachelor's or Master's final project \\ % Modify accordingly
-		\vspace*{1em}
-		This is the title of your project % Write here the title of your study
-		\\ \large
-		\vspace*{3em}
-		Author \\ Author's Name \\ % Your name
-		\vspace*{1em}
-		Supervised by \\ Supervisors' Names % Supervisor(s) name(s)
-% {\vfill \vspace*{3em}{Author's signature:\hrulefill \hfill} \hfill \\ \vspace*{4em}Supervisors' signatures:\hrulefill \hfill} % Uncoment this line if you would like to add a signature space
-		\vfill
-		Madrid \\
-		May 2020 % Modify accordingly
-%	\end{titlepage}
-
-	\cleardoublepage
 
 	% Coment this block if you don't want a dedication and prelude information page
 	% Thanks and other information page
 	{\centering Thank yous\\}
-	\vfill % Fill the page with whitespace (this is just for aesthetical reasons)
+	\vfill % Fill the page with whitespace (this is just for aesthetic reasons)
 	And other important information
 
 	\cleardoublepage
@@ -136,32 +112,34 @@
 	\listoftables % Create index of tables
 	\lstlistoflistings % Create index for code sections
 	\listofalgorithms % Create index for algorithms
-	\printglossary \label{glossaries} % Create glossary enty
-	\printglossary[type=\acronymtype] % Create acronym entry
+	\printglossary[title=List of Symbols, style=longheader, nonumberlist] \label{glossaries} % Create glossary enty
+	\setlength{\glspagelistwidth}{0.2\linewidth} % Add a bit more width to the "Page List" column
+	\printglossary[type=\acronymtype, style=long3col-booktabs] % Create acronym entry
 
 	\cleardoublepage % Open on right hand page (odd numbered)
 
+	% Main body of the work
 	\mainmatter
 
 	% Activate customized headers
 	\pagestyle{fancy}
 
+	% Include the different chapters, documents etc
 	\include{Chapter1/chapter1} % This is the way we should import files and partition our document.
+	% Include more chapters and or documents.
 
-	%% Include more chapters and or documents.
+	% We print the entire bibliography of the document. The author recommends that, if the document contains tremendous amounts of references, that they should be written at the end of each chapter. Refer to https://www.overleaf.com/learn/latex/Bibliography_management_in_LaTeX for more information.
+	\printbibliography[heading=bibintoc]
 
+	% Appendix section
 	\appendix
 
 	%% Include appendixes
+	\include{Appendix1/appendix1}
 
 	\cleardoublepage
 
-% We print the entire bibliography of the document. The author recommends that, if the document contains tremendous amounts of references, that they should be written at the end of each chapter. Refer to https://www.overleaf.com/learn/latex/Bibliography_management_in_LaTeX for more information.
-	\printbibliography[heading=bibintoc]
-
 	\backmatter
-
-%	\glsaddallunused % Force the appearance of all the acronyms and glossary terms even if they are not used
 
 \end{document}
 
