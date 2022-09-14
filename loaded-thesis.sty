@@ -22,9 +22,6 @@
 
 %\usepackage[utf8]{inputenc} % Set the utf8 input encoding. Only needed for basic LaTeX
 \usepackage[]{polyglossia}
-\setdefaultlanguage[variant=british]{english} % Adds localization support to XeTeX and LuaLaTeX. Replaces babel!
-% Select your prefered language. Example: \usepackage[activeacute, spanish]{polyglossia}
-% IMPORTANT: if you compile the document with one language (say english) and then change it to another, the automatically generated files in the directory need to be deleted! Especially the .aux file!
 % IMPORTANT: the package "polyglossia" only works in XeLaTeX and LuaLaTeX
 % If you are using another LaTeX engine, please, use "babel"
 
@@ -40,13 +37,14 @@
 \usepackage{enumitem} % Customization options for environments related to enumerations (such as descriptions). It can also customise alignments
 \usepackage{subcaption} % Allows to have several captions for a single Figure, Table, etc environment
 
-% Glossaries
+%% Glossaries
 \usepackage[toc, acronym, style=super, nopostdot]{glossaries} % Add glossaries. Read the documentation
 \usepackage{glossaries-extra} % Add extra glossaries features
 \usepackage{glossary-longbooktabs} % Add extra glossary style that I personally like
 
 % Graphics and general symbols
 \usepackage[svgnames, table]{xcolor} % Adds more colors to the available list. It has to be loaded before any pgf package
+\usepackage{latexcolors} % Add additional color definitions
 \usepackage{graphicx} % Graphics import and tools
 \usepackage[final]{pdfpages} % Includes pdfs directly, not as images
 \usepackage{pgf} % Package to create graphics
@@ -77,12 +75,13 @@
 \usepackage{amsmath, amsfonts, amssymb} % Mathematical notation
 \usepackage[lined, ruled]{algorithm2e} % To write beautiful algorithms
 \usepackage{pgfplots} % Create native LaTeX looking plots (several backends available)
+\pgfplotsset{compat=1.18}
 \usepackage{pgfplotstable} % Add table manipulation utillities, very useful for tabulated data
 \usepackage{siunitx} % Write Units in accordance with the SI organization and typeset numbers
 \usepackage{circuitikz} % Draw electrical circuit diagrams
 \usepackage{calc} % Perform calculations inside LaTeX. Very useful for widths with \widthof{}
 
-%% Miscellanea
+%% Miscellanea, goodies
 
 \usepackage{todonotes} % Create graphical TODO entries
 \usepackage{watermark} % Watermarks
@@ -104,22 +103,22 @@
 % Listing
 % Inspiration taken from https://gitlab.inria.fr/gustedt/modern-c/-/blob/master/listings-modernC.sty
 \lstset{
-	backgroundcolor=\color{light-gray}, % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}; should come as last argument
-	basicstyle=\small\ttfamily,      % the size of the fonts that are used for the code
-	breakatwhitespace=true,          % sets if automatic breaks should only happen at whitespace
+%	backgroundcolor=\color{light-gray}, % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}; should come as last argument
+	basicstyle=\footnote\ttfamily,      % the size of the fonts that are used for the code
+	breakatwhitespace=false,          % sets if automatic breaks should only happen at whitespace
 	breaklines=true,                 % sets automatic line breaking
-	captionpos=b,                    % sets the caption-position to bottom
+	captionpos=t,                    % sets the caption-position to bottom
 	columns=fixed,                   % taken from the Modern C book (see listings-modernC.sty)
-	commentstyle=\color{lightmagenta}, % comment style
+	commentstyle=\color{gray}, % comment style
 	deletekeywords={...},            % if you want to delete keywords from the given language
 	escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
 	extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
 	firstnumber=0,                   % start line enumeration with line 1000
 	frame=single,                    % adds a frame around the code
-	identifierstyle=\ttfamily\color{darkblue},
+%	identifierstyle=\ttfamily\color{darkblue},
 	keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
-	keywordstyle=\color{blue},       % keyword style
-    %	language=Octave,                 % the language of the code
+	keywordstyle=\bfseries\color{blue},       % keyword style
+%	language=Octave,                 % the language of the code
 	morekeywords={*,...},            % if you want to add more keywords to the set
 	numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
 	numbersep=5pt,                   % how far the line-numbers are from the code
@@ -129,7 +128,7 @@
 	showstringspaces=false,          % underline spaces within strings only
 	showtabs=false,                  % show tabs within strings adding particular underscores
 	stepnumber=5,                    % the step between two line-numbers. If it's 1, each line will be numbered
-	stringstyle=\ttfamily\color{darkbrown},         % string literal style
+	stringstyle=\ttfamily\color{red},         % string literal style
 	tabsize=4,                       % sets default tabsize to 2 spaces
 	title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
 }

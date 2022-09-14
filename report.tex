@@ -22,9 +22,15 @@
 
 % For general information and help about LaTeX, refer to https://www.overleaf.com/learn
 
-%%% PACKAGES
-%Please, read the "loaded-thesis.sty" document to see what is actually loaded and how to use it!
+%%% Packages
+% Please, read the "loaded-thesis.sty" document to see what is actually loaded and how to use it. Some configuration options for a set of packages is also present there. Change those if you need it.
 \usepackage{loaded-thesis}
+
+%% Language configuration
+\setdefaultlanguage[variant=british]{english} % Adds localization support to XeTeX and LuaLaTeX. Replaces babel!
+% Select your prefered language. Example: \usepackage[activeacute, spanish]{polyglossia}
+% IMPORTANT: if you compile the document with one language (say english) and then change it to another, the automatically generated files in the directory need to be deleted! Especially the .aux file!
+
 
 %% Bibliography configuration
 
@@ -49,7 +55,37 @@
 
 \renewcommand*{\nameyeardelim}{\addcomma\addspace} % To add a coma after et al. -> et al.,
 
-%%% CUSTOM COMMANDS
+%%% Acronyms and glossary
+
+%% Force processing of glossaries
+\makeglossaries
+
+% Read the documentation of glossaries and glossaries-extra. They are incredibly powerful,
+% but may require some fiddling to get things exactly how you may want them!
+
+%% Acronyms
+% The acronyms definitions are found in the acronym.tex file.
+% Modify that file accordingly
+\loadglsentries[\acronymtype]{acronyms.tex}
+% Set the short-long style. It prints the long version the first time an acronym is used
+\setabbreviationstyle[acronym]{long-short}
+
+%% Glossary terms
+\loadglsentries{glossaries.tex}
+
+%%% Font configuration
+
+% Change the mono font in order to support more Unicode characters
+\setmonofont{DejaVu Sans Mono}[Scale=MatchLowercase]
+
+% Link colour setup. If you want colours, set "colorlinks" to "true"
+\hypersetup{
+	colorlinks = false,
+	citecolor = red,
+	urlcolor = blue,
+} % Change this options to your liking
+
+%%% Custom commands
 
 % Add abstract environment to book style
 \newenvironment{abstract}%
@@ -69,21 +105,7 @@
  \let\endtikzpicture\endhide
 \fi
 
-%%% Acronyms and glossary
-
-% Read the documentation of glossaries and glossaries-extra. They are incredibly powerful,
-% but may require some fiddling to get things exactly how you may want them!
-
-%% Acronyms
-% The acronyms definitions are found in the acronym.tex file.
-% Modify that file accordingly
-\loadglsentries[\acronymtype]{acronyms.tex}
-
-%% Glossary terms
-\loadglsentries{glossaries.tex}
-
-%% Force processing of glossaries
-\makeglossaries
+\newfloat{genericfloat}{tbhp}{lop} % Added due to bad interaction between dpfloat and algorithm2e
 
 %%% DOCUMENT
 
