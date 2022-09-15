@@ -23,7 +23,7 @@
 \usepackage{geometry} % To modify the geometry of pages (margins and other lengths)
 \usepackage{fancyhdr} % Header and footer customization
 \usepackage{hyperref} % "Advance" and easier referencing
-\usepackage{titlesec} % Section title and structure customization
+% \usepackage{titlesec} % Section title and structure customization. Deactivated by default
 \usepackage{pdflscape} % Add the \begin{landscape} environment
 \usepackage{lipsum} % Dummy text to test the design
 \usepackage{listings} % To add and format code. See the documentation and the Wikibook entry for more information
@@ -36,7 +36,8 @@
 \usepackage{glossary-longbooktabs} % Add extra glossary style that I personally like
 
 % Graphics and general symbols
-\usepackage[svgnames, table]{xcolor} % Adds more colors to the available list. It has to be loaded before any pgf package
+\usepackage[]{xcolor} % Adds more colors to the available list. It has to be loaded before any pgf package
+\PassOptionsToClass{svgnames, table}{xcolor}
 \usepackage{latexcolors} % Add additional color definitions
 \usepackage{graphicx} % Graphics import and tools
 \usepackage[final]{pdfpages} % Includes pdfs directly, not as images

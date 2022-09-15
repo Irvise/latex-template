@@ -23,90 +23,58 @@
 % If a slide should be "breakable", the use the [allowframebreaks] option
 %%%%%%%%%%%%%%%%%%%%
 
+% For general information and help about LaTeX, refer to https://www.overleaf.com/learn
+
 %%% Packages
+% Please, read the "loaded-thesis.sty" document to see what is actually loaded and how to use it. Some configuration options for a set of packages is also present there. Change those if you need it.
+\usepackage{loaded-thesis}
 
-%% General packages
+%% Language configuration
 
-\usepackage[utf8]{inputenc} % Set the utf8 input encoding
-\usepackage[]{polyglossia}
-\setdefaultlanguage[variant=british]{english} % Adds localization support to XeTeX and LuaLaTeX. Replaces babel!
-% Select your prefered language. Example: \usepackage[activeacute, spanish]{polyglossia}
+\usepackage[spanish, english]{babel}
+% The last language in the list is the main language of the document.
+% Select your preferred language, change the language in the middel of the document by using \selectlanguage{spanish}
+% babel also allows to change the font used depending on the language
 % IMPORTANT: if you compile the document with one language (say english) and then change it to another, the automatically generated files in the directory need to be deleted! Especially the .aux file!
-% IMPORTANT: the package "polyglossia" only works in XeLaTeX and LuaLaTeX
-% If you are using another LaTeX engine, please, use "babel"
 
-%% Structure, design and style packages
 
-\usepackage{hyperref} % "Advance" and easier referencing
-\usepackage{lipsum} % Dummy text to test the design
-\usepackage{listings} % To add and format code. See the documentation and the Wikibook entry for more information
-\usepackage{enumitem} % Customization options for environments related to enumerations (such as descriptions). It can also customise alignments
+%% Bibliography configuration
 
-% Graphics and general symbols
-% \usepackage[svgnames]{xcolor} %WARNING: not needed since it is already loaded % Adds more colors to the available list. It has to be loaded before any pgf package
-\usepackage{graphicx} % Graphics import and tools
-\usepackage{svg} % To work with svg imports. It requires some setup, read the documentation
-\usepackage[final]{pdfpages} % Includes pdfs directly, not as images
-\usepackage{pgf} % Package to create graphics
-\usepackage{eurosym} % Official Euro symbol
-\usepackage{dirtree} % Create directory structures
-
-% Fonts
-\usepackage{csquotes} %
-\usepackage{fontspec} % Adds font management. Requires XeTeX or LuaTeX
-% Uncomment one of the following packages if you need bidirectional text
-% \usepackage{luabidi} % Enables bidirectional text in LuaLaTeX. If you are using another engine, use the package below
-% \usepackage{bidi} % Enables bidirectional code. Requires XeTeX
-\usepackage{microtype} % Micro-typographic extentions. It is better with XeTeX or LuaLaTeX
-\usepackage{lettrine} % Dropped capitals styles
-\usepackage{pgfornament} % Adds ornaments
-\usepackage{psvectorian} % Adds even more ornaments
-
-% Tables
-\usepackage{booktabs} % To create beautiful tables
-\usepackage{xltabular} % Adds tables with more functionallity. Please, read the documentation
-\usepackage{multicol} % To output text in two or more columns
-\usepackage{multirow} % To output text in two or more rows
-
-% Bibliography
 \usepackage[backend=biber,
 			style=numeric,
-			citestyle=numeric,
 			sorting=none]{biblatex}
-        % Citation configuration. We use biblatex, which is more
-        % complex, but as customizable as it gets.
-        % Please, modify this to your liking.
-        % IMPORTANT: this requires biber to be installed and run every time
-        % you change the .bib file! To make it easier, if you are using TeXStudio, do the following:
-        % 1. Go to options. 2. Select the Build menu. 3 In standard bibliography, change bibtex to biber. 4. Profit
-        % These changes will allow the editor to detect any changes and "recompile" the files if needed.
-        % For other editors see: https://tex.stackexchange.com/questions/154751/biblatex-with-biber-configuring-my-editor-to-avoid-undefined-citations
-        % See link for a quick introduction: https://tex.stackexchange.com/questions/26516/how-to-use-biber/34136
-        % If you are having issues with the bibliography, please, search for how to install and run biber!
+			% Citation configuration. We use biblatex, which is more
+			% complex, but as customizable as it gets.
+			% Please, modify this to your liking.
+			% IMPORTANT: this requires biber to be installed and run every time
+			% you change the .bib file! To make it easier, if you are using TeXStudio, do the following:
+			% 1. Go to options. 2. Select the Build menu. 3 In standard bibliography, change bibtex to biber. 4. Profit
+			% These changes will allow the editor to detect any changes and "recompile" the files if needed.
+			% For other editors see: https://tex.stackexchange.com/questions/154751/biblatex-with-biber-configuring-my-editor-to-avoid-undefined-citations
+			% See link for a quick introduction: https://tex.stackexchange.com/questions/26516/how-to-use-biber/34136
+			% If you are having issues with the bibliography, please, search for how to install and run biber!
 
-        % Specialised packages. Please, read their documentation as they provide a lot of functionallity.
+			% Specialised packages. Please, read their documentation as they provide a lot of functionality.
 
-%% Technical and scientific packages
+% Bibliography resource
+\addbibresource{main.bib} % Read bibliography entries/database
 
-\usepackage{amsmath, amsfonts, amssymb} % Mathematical notation
-\usepackage[lined, ruled]{algorithm2e} % To write beautiful algorithms
-\usepackage{pgfplots} % Create native LaTeX looking plots (several backends available)
-\usepackage{pgfplotstable} % Add table manipulation utillities, very useful for tabulated data
-\usepackage{siunitx} % Write Units in accordance with the SI organization
-\usepackage{circuitikz} % Draw electrical circuit diagrams
+\renewcommand*{\nameyeardelim}{\addcomma\addspace} % To add a coma after et al. -> et al.,
 
-%% Miscellanea
+%%% Font configuration
 
-\usepackage{watermark} % Watermarks
+% Change the mono font in order to support more Unicode characters
+\setmonofont{DejaVu Sans Mono}[Scale=MatchLowercase]
+
+% Link colour setup. If you want colours, set "colorlinks" to "true"
+\hypersetup{
+	colorlinks = false,
+	citecolor = red,
+	urlcolor = blue,
+} % Change this options to your liking
 
 %%% Beamer theme
 \usetheme[block=fill]{metropolis}
-
-%%% PACKAGE CONFIGURATION
-
-% Bibliography resource
-\addbibresource{main.bib}
-\renewcommand*{\nameyeardelim}{\addcomma\addspace} % To add a coma after et al. -> et al.,
 
 \begin{document}
 
