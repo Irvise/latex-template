@@ -13,7 +13,7 @@
 %%%%%%%%%%%%%%%%%%%%
 
 %%%
-% Important. The packages and some extra functionallity is found in the loaded-thesis.sty file!
+% Important. The packages and some extra functionality is found in the loaded-thesis.sty file!
 % Read it to learn more about what you can do with LaTeX and how things are configured.
 %%%
 
@@ -27,8 +27,11 @@
 \usepackage{loaded-thesis}
 
 %% Language configuration
-\setdefaultlanguage[variant=british]{english} % Adds localization support to XeTeX and LuaLaTeX. Replaces babel!
-% Select your prefered language. Example: \usepackage[activeacute, spanish]{polyglossia}
+
+\usepackage[spanish, english]{babel}
+% The last language in the list is the main language of the document.
+% Select your preferred language, change the language in the middel of the document by using \selectlanguage{spanish}
+% babel also allows to change the font used depending on the language
 % IMPORTANT: if you compile the document with one language (say english) and then change it to another, the automatically generated files in the directory need to be deleted! Especially the .aux file!
 
 
@@ -48,7 +51,7 @@
 			% See link for a quick introduction: https://tex.stackexchange.com/questions/26516/how-to-use-biber/34136
 			% If you are having issues with the bibliography, please, search for how to install and run biber!
 
-			% Specialised packages. Please, read their documentation as they provide a lot of functionallity.
+			% Specialised packages. Please, read their documentation as they provide a lot of functionality.
 
 % Bibliography resource
 \addbibresource{main.bib} % Read bibliography entries/database
@@ -64,11 +67,11 @@
 % but may require some fiddling to get things exactly how you may want them!
 
 %% Acronyms
+% Set the short-long style. It prints the long version the first time an acronym is used
+\setabbreviationstyle[acronym]{long-short}
 % The acronyms definitions are found in the acronym.tex file.
 % Modify that file accordingly
 \loadglsentries[\acronymtype]{acronyms.tex}
-% Set the short-long style. It prints the long version the first time an acronym is used
-\setabbreviationstyle[acronym]{long-short}
 
 %% Glossary terms
 \loadglsentries{glossaries.tex}
@@ -94,10 +97,9 @@
 {\vfill\null}
 
 % Hide environments
-
 % Hide plots to speed up processing by uncommenting the following line
 \newif\ifhidepgfplots
-%\hidepgfplotstrue % Comment to hide plots
+%\hidepgfplotstrue % Uncomment to hide plots
 \ifhidepgfplots
  \usepackage{environ}
  \NewEnviron{hide}{}
@@ -114,7 +116,7 @@
 	\include{cover}
 	\frontmatter % First few pages
 
-	% Coment this block if you don't want a dedication and prelude information page
+	% Comment this block if you don't want a dedication and prelude information page
 	% Thanks and other information page
 	{\centering Thank yous\\}
 	\vfill % Fill the page with whitespace (this is just for aesthetic reasons)
