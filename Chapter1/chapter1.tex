@@ -1,9 +1,139 @@
-\chapter{This is the first chapter}
-\gls{timestepval}
-\gls{FIB} \gls{FIB}
-\lipsum
-\section{This is the first section}
-\lipsum
-\subsection{This is the first subsection}
-\lipsum
-And here comes a citation \cite{lovecraft2016el}.
+\chapter{An overview of \LaTeX}
+
+In this section, a few basic tools will be presented. In following sections more advance functionality and complex tools will be showcased. Use this to your advantage!
+
+\section{Basics of \LaTeX}
+
+\subsection{Text styles}
+
+The following table showcases some of the more common text styles in \LaTeX.
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{lcc}
+	  \toprule
+	  Style & Code & Ouput \\
+	  \midrule
+	  Quotes & \verb|``Quotes''| & ``Quotes'' \\
+	  Boldface & \verb|\textbf{Boldface}| & \textbf{Boldface} \\
+	  Italics & \verb|\textit{Italics}| & \textit{Italics} \\
+	  Emphasis & \verb|\emph{Emphasis}| & \emph{Emphasis} \\
+	  Underline & \verb|\underline{Underline}| & \underline{Underline} \\
+	  Typewriter & \verb|\texttt{Typewriter}| & \texttt{Typewriter} \\
+	  Mathematical & \verb|$Mathematical^{\pi\cdot i}$| & $Mathematical^{\pi\cdot i}$ \\
+	  \bottomrule
+	\end{tabular}
+	\caption{Text styles in \LaTeX.}
+	\label{fig:textstyles}
+\end{table}
+
+\subsection{Structure of a \LaTeX\ document}
+
+For this template, which is based in the \texttt{book} class, we have the following major sections:
+
+\begin{enumerate}
+	\item \verb|\part{}|: Parts are fully self-contained portions of information. They leave a full blank page with only the title of the part. \textbf{This is not used and not recommended!}
+	\item \verb|\chapter{}|: Your normal chapters, as you can see above. We are in the ``\emph{An overview of \LaTeX }.''
+	\item \verb|\section{}|: Normal sections for a chapter. We are in ``\emph{Basics of \LaTeX}.''
+	\item \verb|\subsection{}|: Subsections. We are in ``\emph{Structure of a \LaTeX\ document}.''
+	\item \verb|\subsubsection{}|: Subsubsections. This level tends to be quite deep and will most likely not appear in the index unless we include \verb|\setcounter{secnumdepth}{3}| in the preamble\footnote{The preamble is the part before \texttt{\textbackslash begin\{document\}}, basically, the setup section.}.
+	\item \verb|\paragraph{}|: One step deeper. By default paragraphs are not numbered.
+\end{enumerate}
+
+\subsection{Mathematical notation}
+
+\LaTeX\ provides several way to include symbols and write maths. The most basic way is to include mathematical notation or symbols into the text. This is known as \emph{inline} and can be done with \verb|$...$|. Whatever is between the \$ symbols, is typeset in mathematical notation. This is an example: $2 = \frac{4}{2}$. This is produced using \verb|2 = \frac{4}{2}|.
+
+Another method is to write mathematical formulas in \emph{display} mode, which is separated from the text. This can be done by wrapping the text in \verb|\[...\]|. \textbf{This is not recommended} as the next method is better. Here is an example:
+
+\[
+	2 = \frac{4}{2}
+\]
+
+Normally, the best way is to use mathematical environments. This environments will provide more functionality and generally number the equations and allows them to be labelled. Here are a few examples:
+
+\begin{equation} \label{eq:simpleeq}
+	2 = \frac{4}{2}
+\end{equation}
+
+The equation above, \cref{eq:simpleeq}, is produced by writing:
+
+\begin{lstlisting}[language=TeX]
+\begin{equation} \label{eq:simpleeq}
+	2 = \frac{4}{2}
+\end{equation}
+\end{lstlisting}
+
+\lstinputlisting{cover.tex}
+
+Lets showcase some more environments that help us write beautiful formulas! The \verb|\begin{array}| environment helps us write vertically aligned formulas!
+
+\begin{equation} \label{eq:abaqus-exponential-decay}
+f(t) = \left\{
+	\begin{array}{lcc}
+		A_0 + A\cdot e^{-\dfrac{t - t_0}{t_d}} & for & t \geq t_0 \\
+		A_0 & for & t < t_0
+	\end{array}
+	\right.
+\end{equation}
+
+\begin{lstlisting}[language=TeX]
+\begin{equation} \label{eq:abaqus-exponential-decay}
+	f(t) = \left\{
+	\begin{array}{lcc}
+		A_0 + A\cdot e^{-\dfrac{t - t_0}{t_d}} & for & t \geq t_0 \\
+		A_0 & for & t < t_0
+	\end{array}
+	\right.
+\end{equation}
+\end{lstlisting}
+
+
+The \verb|\begin{aling}| environment may be easier to use, but it has a few quirks. Read the documentation\footnote{\url{http://tug.ctan.org/info/short-math-guide/short-math-guide.pdf}} for more information.
+
+\begin{align}
+	a_{11}& =b_{11}&
+	a_{12}& =b_{12}\\
+	a_{21}& =b_{21}&
+	a_{22}& =b_{22}+c_{22}
+\end{align}
+
+\begin{lstlisting}[language=TeX]
+\begin{align}
+	a_{11}& =b_{11}&
+	a_{12}& =b_{12}\\
+	a_{21}& =b_{21}&
+	a_{22}& =b_{22}+c_{22}
+\end{align}
+\end{lstlisting}
+
+The \verb|\begin{subequations}| allows us to have several formulas numbered into the same reference. As shown in \cref{eq:symmetry-bc}, with the first entry being \cref{eq:x-symmetry-bc}.
+
+\begin{subequations} \label{eq:symmetry-bc}
+	\begin{equation} \label{eq:x-symmetry-bc}
+		\text{\texttt{XSYMM}} \equiv U1 = UR2 = UR3 = 0
+	\end{equation}
+	\begin{equation}
+		\text{\texttt{ZSYMM}} \equiv U3 = UR1 = UR2 = 0
+	\end{equation}
+\end{subequations}
+
+\begin{lstlisting}[language=TeX]
+\begin{subequations} \label{eq:symmetry-bc}
+	\begin{equation} \label{eq:x-symmetry-bc}
+		\text{\texttt{XSYMM}} \equiv U1 = UR2 = UR3 = 0
+	\end{equation}
+	\begin{equation}
+		\text{\texttt{ZSYMM}} \equiv U3 = UR1 = UR2 = 0
+	\end{equation}
+\end{subequations}
+\end{lstlisting}
+
+% Emacs setup
+
+%%% Local Variables:
+%%% mode: latex
+%%% coding: utf-8
+%%% TeX-engine: luatex
+%%% TeX-master: "../report"
+%%% End:
