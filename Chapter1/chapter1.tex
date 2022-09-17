@@ -40,9 +40,11 @@ For this template, which is based in the \texttt{book} class, we have the follow
 	\item \verb|\paragraph{}|: One step deeper. By default paragraphs are not numbered.
 \end{enumerate}
 
+You jus have to write what you want between the \verb|{}| for each command, and \LaTeX\ does the rest. It typsets the titles/sections, it adds them to the table of contents and numbers them consistently!
+
 \subsection{Mathematical notation}
 
-\LaTeX\ provides several way to include symbols and write maths. The most basic way is to include mathematical notation or symbols into the text. This is known as \emph{inline} and can be done with \verb|$...$|. Whatever is between the \$ symbols, is typeset in mathematical notation. This is an example: $2 = \frac{4}{2}$. This is produced using \verb|2 = \frac{4}{2}|.
+\LaTeX\ provides several way to include symbols and write maths. The most basic way is to include mathematical notation or symbols into the text. This is known as \emph{inline} and can be done with \verb|$...$|. Whatever is between the \$ symbols, is typeset in mathematical notation. This is an example: $2 = \frac{4}{2}$. This is produced using \verb|$2 = \frac{4}{2}$|.
 
 Another method is to write mathematical formulas in \emph{display} mode, which is separated from the text. This can be done by wrapping the text in \verb|\[...\]|. \textbf{This is not recommended} as the next method is better. Here is an example:
 
@@ -58,13 +60,11 @@ Normally, the best way is to use mathematical environments. This environments wi
 
 The equation above, \cref{eq:simpleeq}, is produced by writing:
 
-\begin{lstlisting}[language=TeX]
+\begin{lstlisting}[language={[LaTeX]TeX}]
 \begin{equation} \label{eq:simpleeq}
 	2 = \frac{4}{2}
 \end{equation}
 \end{lstlisting}
-
-\lstinputlisting{cover.tex}
 
 Lets showcase some more environments that help us write beautiful formulas! The \verb|\begin{array}| environment helps us write vertically aligned formulas!
 
@@ -77,7 +77,7 @@ f(t) = \left\{
 	\right.
 \end{equation}
 
-\begin{lstlisting}[language=TeX]
+\begin{lstlisting}[language={[LaTeX]TeX}]
 \begin{equation} \label{eq:abaqus-exponential-decay}
 	f(t) = \left\{
 	\begin{array}{lcc}
@@ -98,7 +98,7 @@ The \verb|\begin{aling}| environment may be easier to use, but it has a few quir
 	a_{22}& =b_{22}+c_{22}
 \end{align}
 
-\begin{lstlisting}[language=TeX]
+\begin{lstlisting}[language={[LaTeX]TeX}]
 \begin{align}
 	a_{11}& =b_{11}&
 	a_{12}& =b_{12}\\
@@ -118,7 +118,7 @@ The \verb|\begin{subequations}| allows us to have several formulas numbered into
 	\end{equation}
 \end{subequations}
 
-\begin{lstlisting}[language=TeX]
+\begin{lstlisting}[language={[LaTeX]TeX}]
 \begin{subequations} \label{eq:symmetry-bc}
 	\begin{equation} \label{eq:x-symmetry-bc}
 		\text{\texttt{XSYMM}} \equiv U1 = UR2 = UR3 = 0
@@ -128,6 +128,42 @@ The \verb|\begin{subequations}| allows us to have several formulas numbered into
 	\end{equation}
 \end{subequations}
 \end{lstlisting}
+
+\subsection{References}
+
+One of the strongest points of \LaTeX\ is its wonderful and powerful referencing system. We can reference whatever we want by putting on a ``tag'' with the command \verb|\label{xxx}|. Wherever the \verb|\label| is, it will refer to it. You can see some examples above where we refered to a few equations by their labels, which are inside the \verb|\begin{equation}| environment. This way, \LaTeX\ knows automatically what type of thing they are referring.
+
+Here, lets see what types of refences we can generate!
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{lcc}
+	  \toprule
+	  Package & Command & Result \\
+	  \midrule
+	  \LaTeX & \verb|\ref{eq:simpleeq}| & \ref{eq:simpleeq} \\
+	  & \verb|\pageref{eq:simpleeq}| & \pageref{eq:simpleeq} \\
+	  \cmidrule{2-3}
+	  \texttt{hyperref} & \verb|\autoref{eq:simpleeq}| & \autoref{eq:simpleeq} \\
+			  & \verb|\autoref{fig:textstyles}| & \autoref{fig:textstyles} \\
+			  & \verb|\autopageref{eq:simpleeq}| & \autopageref{eq:simpleeq} \\
+	  \cmidrule{2-3}
+	  \texttt{cleveref} & \verb|\cref{eq:simpleeq}| & \cref{eq:simpleeq} \\
+			  & \verb|\Cref{eq:simpleeq}| & \Cref{eq:simpleeq} \\
+	  & \verb|\cpageref{eq:simpleeq}| & \cpageref{eq:simpleeq} \\
+			  & \verb|\cref{eq:simpleeq,eq:symmetry-bc}| & \cref{eq:simpleeq,eq:symmetry-bc} \\
+			  & \verb|\crefrange{eq:simpleeq}| & \multirow{2}{*}{\crefrange{eq:simpleeq}{eq:symmetry-bc}}\\
+	  & \verb|{eq:symmetry-bc}| & \\
+	  \bottomrule
+	\end{tabular}
+	\caption[Different reference mechanisms.]{Different reference mechanisms. \textbf{The author recommends \texttt{cleveref}!}. It is included in this template.}
+	\label{tab:reference-systems}
+\end{table}
+
+\subsection{Bibliography}
+
+Bibliography management is another strong point of \LaTeX!
+
 
 % Emacs setup
 
