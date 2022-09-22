@@ -1,5 +1,47 @@
+%%% Write your own glossary entries here
+% The general structure is:
+% \newglossaryentry{identifier}
+% {
+% 	name={name}, % Mandatory, what gets printed
+% 	description={description of the entry}, % Mandatory, description that appears in the glossary index
+% 	plural={plural-name}, % Optional, in case the plural is more complex
+% 	sort={alphanumeric entry}, % Optional, how should the entry be sorted
+% 	symbol={\ensuremath{associated symbol}}, % Optional, prints the symbol of the entry with \glssymbol{identifier}
+% }
+
+% Some examples
+\newglossaryentry{test}
+{
+	name={test},
+	description={This is a test entry for glossaries}
+}
 \newglossaryentry{timestepval}
 {
 	name={\ensuremath{x_t}},
 	description={Value of variable $x$ at time step \ensuremath{t}}
+}
+\newglossaryentry{thermalstrain}
+{
+	name={\ensuremath{\epsilon^{th}}},
+	description={Thermal strain component}
+}
+\newglossaryentry{plasticstrain}
+{
+	name={\ensuremath{\epsilon^{pl}}},
+	description={Plastic strain component}
+}
+\newglossaryentry{inelasticstrain}
+{
+	name={\ensuremath{\epsilon^{in}}},
+	description={Inelastic strain component}
+}
+\newglossaryentry{elasticstrain}
+{
+	name={\ensuremath{\epsilon^{el}}},
+	description={Elastic strain component}
+}
+\newglossaryentry{totalstrain}
+{
+	name={\ensuremath{\epsilon^{tot}}},
+	description={Total strain}
 }

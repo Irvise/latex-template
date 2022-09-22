@@ -2,6 +2,17 @@
 
 In this section, a few basic tools will be presented. In following sections more advance functionality and complex tools will be showcased. \textbf{Use this as examples and to your advantage!}
 
+\textsc{\color{red}Important:} this template uses Lua\LaTeX, a modern \LaTeX\ engine. You should setup your editor to use Lua\LaTeX, otherwise it will not be able to generate the document. Overleaf, for example, does not change the \LaTeX\ engine automatically, so you have to do it yourself (it is very easy!).
+
+\textsc{\color{red}Important:} read the documentation of the pacakges that you will use! Also, read general documentation about \LaTeX! While the following guide below explains some of the most basic and cooler topics of \LaTeX, the explanations are swallow. I do not cover details nor issues that may appear and how to fix them. Some really good resources are:
+\begin{itemize}
+	\item \href{https://en.wikibooks.org/wiki/LaTeX}{\LaTeX's Wikibook}
+	\item \href{https://www.overleaf.com/learn}{Overleaf's \LaTeX\ resources}
+	\item \href{https://www.ctan.org/tex-archive/info/lshort/english/}{The not so short introduction to \LaTeX} book
+	\item {\color{red} The packages manuals!}
+	\item Any searh engine.
+\end{itemize}
+
 \section{Basics of \LaTeX}
 
 \subsection{Text styles}
@@ -20,6 +31,7 @@ The following table showcases some of the more common text styles in \LaTeX.
 	  Emphasis & \verb|\emph{Emphasis}| & \emph{Emphasis} \\
 	  Underline & \verb|\underline{Underline}| & \underline{Underline} \\
 	  Typewriter & \verb|\texttt{Typewriter}| & \texttt{Typewriter} \\
+	  Small caps & \verb|\textsc{small caps}| & \textsc{small caps} \\
 	  Mathematical & \verb|$Mathematical^{\pi\cdot i}$| & $Mathematical^{\pi\cdot i}$ \\
 	  \LaTeX\ Comments & \verb|% Some text| & % Some text
 	  \\
@@ -135,7 +147,7 @@ The \verb|\begin{subequations}| allows us to have several formulas numbered into
 
 One of the strongest points of \LaTeX\ is its wonderful and powerful referencing system. We can reference whatever we want by putting on a ``tag'' with the command \verb|\label{xxx}|. Wherever the \verb|\label| is, it will refer to it. You can see some examples above where we refered to a few equations by their labels, which are inside the \verb|\begin{equation}| environment. This way, \LaTeX\ knows automatically what type of thing they are referring.
 
-Here, lets see what types of refences we can generate!
+The different types of references are shown in \cref{tab:reference-systems}.
 
 \begin{table}[h]
 	\centering
@@ -181,6 +193,8 @@ In order to cite the entry we just have to use \verb|\cite{}| with the entry's i
 
 \textsc{\color{red}Important:} this template uses \texttt{biblatex} as the management system, which is a powerful, flexible and modern tool. Therefore, you will need to run the \texttt{biber} command to build the bibliography after the first compilation of your document; then you will have to recompile after \texttt{biber} has run. Most editors do this by default.
 
+You can also use third-party tools like Zotero\footnote{\url{https://www.zotero.org/}} to manage your \verb|.bib| database. Most bibliography management tools are capable of dealing with \verb|.bib| entries!
+
 \subsection{Tables, images and floating environments}
 
 Probably, the part of \LaTeX\ that causes the most confusion among new users, are the so called \emph{floating envrionments}. \textbf{Tables, images, algorithms, etc are floating envrionments}. This means that \textbf{\LaTeX\ can position them where it sees fit, not where they are written by the user.} In reality, \LaTeX\ is trying to optimise your document's layout and leave as little empty space as possible.
@@ -190,7 +204,7 @@ Sooo... How do we solve \LaTeX\ moving our floating environments? Here are a few
 \begin{itemize}
 	\item We don't solve it. \LaTeX\ referencing tools allow us to easily point the reader to the table, image, etc. Therefore, it is not that problematic that the \emph{floats} may not be where we put them!
 	\item We can ask \LaTeX\ to try to place the image where it appears in our document. This is done with the \emph{``here''} \verb|[h]| placement modifier, more on placement modifiers later. \textbf{This is not a definitive solution.} This will just tell \LaTeX\ to try hard to do what we are asking. There is the \verb|[h!]| modifier, which is even stronger.
-	\item \textbf{A really good solution is to use} \verb|\FloatBarrier|. It comes from the \verb|placeins| package, included in this template. \verb|\FloatBarrier| forces \LaTeX\ to put all floating environment that have already appear before the position where \verb|\FloatBarrier| appears. This is very useful to force \LaTeX\ to put all floats before another section that may not be related to the topic of those floats. Here is an example:
+	\item \textbf{A really good solution is to use} \verb|\FloatBarrier|. It comes from the \verb|placeins| package, included in this template. \verb|\FloatBarrier| forces \LaTeX\ to put all floating environment that have already appeared before the position where \verb|\FloatBarrier| appears. This is very useful to force \LaTeX\ to put all floats before another section that may not be related to the topic of those floats. Here is an example:
 
 \begin{lstlisting}[language={[LaTeX]TeX}]
 \section{Some topic}
@@ -251,14 +265,14 @@ Now, how do we actually include figures, tables, etc? They all follow the same s
 	\label{tab:example-table}
 \end{table}
 \end{lstlisting}
-	\textsc{\color{red}Important:} the \texttt{\&} symbol is used as a column break in all alignment environments!
+	\textsc{\color{red}Important:} the \texttt{\&} symbol is used as a column separator in all alignment environments!
 
 	The column alingment options for the tabular environment can be \texttt{l, c, r, m{}} or \texttt{p{}} among others. They refer to left, center, right alignment and the \texttt{m{}} and \texttt{p{}} refer to a limited size column whose vertical alignment is either centered or natural. You could use them as \verb|m{0.3\linewidth}| for example. If you want to aling the text horizontally with \texttt{m} or \texttt{p} you would write \verb|>{\centering\arraybackslash}m{0.3\linewidth}|. You can change the \verb|\centering| for a \verb|\raggedright| for a right aligned column. But this is getting too advance!
 	One final bit of knowledge about very long tables and dynamicly sized columns. This template includes the package \texttt{xltabular}, which includes the well-known \verb|tabularx| environment and merges it with the \verb|longtable| environment (for tables that can span more than one page) generating its own \verb|xltabular| envrionment. Please red the documentation of the \texttt{tabularx}, \verb|longtable| and \verb|xltabular| if you need to build complex tables!
 
 	Also, \textbf{there are online tools to help you generate \LaTeX\ tables from Excel sheets}. One such example (which I am not very familiar with nor endorse) is \href{https://tableconvert.com/excel-to-latex}{Tableconvert}.
 
-	Finally, if you have \texttt{.csv} files or similar and you want to print them in your \LaTeX\ document, you can see \cref{tab:automatic-reading-csv}, which was automatically generated using \verb|pgfplotstable|.
+	Finally, if you have \texttt{.csv} files or similar and you want to print them in your \LaTeX\ document, you can see \cref{sec:pgfplotstable}, which shows how \cref{tab:automatic-reading-csv} was automatically generated using \verb|pgfplotstable|.
 \end{description}
 
 \begin{figure}[h]
@@ -285,11 +299,72 @@ Now, how do we actually include figures, tables, etc? They all follow the same s
 
 \section{Glossaries}\label{sec:glossaries}
 
+Creating glossaries in \LaTeX\ is surprisingly easy. However, it does require a bit of understanding.
+
+For this template, the entries for the glossaries and acronyms (which are just a different type of glossary) are loaded from the \texttt{glossaries.tex} and \texttt{acronyms.tex} files. This is just to keep things organised. So, lets define some entries for our glossary and acronym list.
+
+For glossary entries we use the \verb|\newglossaryentry{}{...}| command. Here is an example:
+
+\begin{lstlisting}[language={[LaTeX]TeX}]
+\newglossaryentry{identifier}
+{
+	name={name}, % Mandatory, what gets printed
+	description={description of the entry}, % Mandatory, description that appears in the glossary index
+	plural={plural-name}, % Optional, in case the plural is more complex
+	sort={alphanumeric entry}, % Optional, how should the entry be sorted
+	symbol={\ensuremath{associated symbol}}, % Optional, prints the symbol of the entry with \glssymbol{identifier}
+}
+\end{lstlisting}
+
+For acronyms, we could use the code above, but there is a simpler and more direct way of doing it with \verb|\newabbreviation{}{}{}|. Here is how it works:
+
+\begin{lstlisting}[language={[LaTeX]TeX}]
+\newabbreviation{Identifier}{ACRONYM}{Description Of Acronym}
+\end{lstlisting}
+
+\verb|\newabbreviation[]| supports a long set of options. For example, the \verb|longplural={...}| option allows us to write the plural form in case it is more refined. There are many other options. The abbreviation functionality is provided by the \verb|glossaries-extra| package.
+
+Once your own personal entries have been created, you can use them with the following commands.
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{lcc}
+	  \toprule
+	  Type & Command & Result \\
+	  \midrule
+	  Glossary & \verb|\gls{test}| & \gls{test} \\
+		   & \verb|\Gls{test}| & \Gls{test} \\
+		   & \verb|\glspl{test}| & \glspl{test} \\
+		   & \verb|\Glspl{test}| & \Glspl{test} \\
+		   & \verb|\glsentryname{test}| & \glsentryname{test} \\
+		   & \multicolumn{2}{l}{$\uparrow$ this does not produce a link} \\
+	  \cmidrule{2-3}
+	  Acronyms & \verb|\glsxtrshort{FEM}| & \glsxtrshort{FEM} \\
+		   & \verb|\glsxtrshortpl{FEM}| & \glsxtrshortpl{FEM} \\
+		   & \verb|\glsxtrlong{FEM}| & \glsxtrlong{FEM} \\
+		   & \verb|\glsxtrfull{FEM}| & \glsxtrfull{FEM} \\
+		   & \verb|\glsentryname{FEM}| & \glsentryname{FEM} \\
+	   & \verb|\gls{FEM}| & \gls{FEM} \\
+	  What? & \verb|\gls{FEM}| & \gls{FEM} \\
+	  \bottomrule
+	\end{tabular}
+	\caption{Glossary and acronym types.}
+	\label{tab:glossaries}
+\end{table}
+
+Wait, what happened in the second \verb|\gls{FEM}| entry in the acronym section? Why did it produce a different result (\verb|\glsxtrshort{FEM}|) when compared to the first one (\verb|\glsxtrfull{FEM}|)?
+
+Simple: this template uses the \verb|\setabbreviationstyle[acronym]{long-short}| style. The first time an acronym is used, it will show the full form. After that, the short form is used. All of this automatically! Isn't this magical? If you would like to show always the short form, you can delete that line from the \texttt{report.tex} or use \verb|\setabbreviationstyle[acronym]{short-nolong}| (or any other style that you like!).
+
+\textsc{\color{red}Important:} in order to show the list of glossaries and acronyms in their table of contents, you will have to run \verb|makeglossaires|. Some editors will do that automatically for you, as they will detect you have a glossary in your document.
+
+\section{Automatic loading and formatting of code}
+
 \section{Creating beautiful plots in 2D and 3D}
 
-\section{Automatic formatting of table data}
+\section{Automatic formatting of table data} \label{sec:pgfplotstable}
 
-The following table, \cref{tab:automatic-reading-csv}, is formatted using the following general setup for \verb|pgfplotstable|. This is only needed once, an it applies to ``all'' the automatically loaded table.
+The following table, \cref{tab:automatic-reading-csv}, is formatted using the following general setup for \verb|pgfplotstable|. The following \LaTeX-\verb|pgfplotstable| is only needed once, and it applies to ``all'' the automatically loaded table.
 
 \begin{lstlisting}[language={[LaTeX]TeX}]
 % Configure the general setting of pgfplotstable
@@ -314,7 +389,7 @@ The following table, \cref{tab:automatic-reading-csv}, is formatted using the fo
 }
 \end{lstlisting}
 
-And then the actual table:
+And then the actual loading of the table. The following code setups the header (names, columns, etc) and then loads the data.
 \begin{lstlisting}[language={[LaTeX]TeX}]
 \begin{table}
 	\newcommand{\prop}{Expansion}
@@ -378,6 +453,11 @@ Whats even cooler is that \verb|pgfplotstable| uses the package \verb|siunitx| t
 	\label{tab:automatic-reading-csv}
 \end{table}
 
+\section{Some extra bits of knowledge}
+
+\subsection{How do I prevent \LaTeX\ from splitting a word, number, etc?}
+
+\LaTeX\ will automatically break some words or numbers in order to have a nice layout of the paragraph. However, sometime we don't want that. This can be solved with \verb|\mbox{XXX}|. This, however, may generate unexpecte behaviour! For example: \mbox{\texttt{XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX}}.
 
 % Emacs setup
 
