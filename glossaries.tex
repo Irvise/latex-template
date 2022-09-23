@@ -20,6 +20,26 @@
 	name={\ensuremath{x_t}},
 	description={Value of variable $x$ at time step \ensuremath{t}}
 }
+\newglossaryentry{creepstrainrate}
+{
+	name={\ensuremath{\dot{\epsilon}^{cr}}},
+	description={Creep strain rate}
+}
+\newglossaryentry{primarycreepstrainrate}
+{
+	name={\ensuremath{\dot{\epsilon}_{pr}}},
+	description={Primary creep strain rate}
+}
+\newglossaryentry{secondarycreepstrainrate}
+{
+	name={\ensuremath{\dot{\epsilon}_{sd}}},
+	description={Secondary creep strain rate}
+}
+\newglossaryentry{initialstrain}
+{
+	name={\ensuremath{\epsilon_{0}}},
+	description={Strain after initial load}
+}
 \newglossaryentry{thermalstrain}
 {
 	name={\ensuremath{\epsilon^{th}}},
@@ -44,4 +64,92 @@
 {
 	name={\ensuremath{\epsilon^{tot}}},
 	description={Total strain}
+}
+%TODO check that the tilde gets printed correctly! The package unicode-math is the culprit. It has been turned off
+\newglossaryentry{stressdevia}
+{
+	name={\ensuremath{\tilde{\sigma}}},
+	description={Deviatoric stress component. Mises criterion}
+}
+\newglossaryentry{primarycreep}
+{
+	name={\ensuremath{\epsilon_{pr}}},
+	description={Primary creep strain}
+}
+\newglossaryentry{secondarycreep}
+{
+	name={\ensuremath{\epsilon_{sc}}},
+	description={Secondary creep strain}
+}
+\newglossaryentry{totalcreep}
+{
+	name={\ensuremath{\epsilon^{cr}\, / \, \epsilon^{vp}}},
+	description={Creep/viscoplastic strain},
+	text={\ensuremath{\epsilon^{cr}}}
+}
+\newglossaryentry{thermalexpan}
+{
+	name={\ensuremath{\alpha}},
+	description={Thermal expansion coefficient}
+}
+\newglossaryentry{density}
+{
+	name={\ensuremath{\rho}},
+	description={Density}
+}
+\newglossaryentry{young}
+{
+	name={\ensuremath{E}},
+	description={Young modulus}
+}
+\newglossaryentry{poisson}
+{
+	name={\ensuremath{\nu}},
+	description={Poisson's coefficient}
+}
+\newglossaryentry{thermalcond}
+{
+	name={\ensuremath{\lambda}},
+	description={Thermal conductivity coefficient}
+}
+\newglossaryentry{gasconstant}
+{
+	name={\ensuremath{\mathfrak{R}}},
+	description={Universal gas constant}
+}
+\newglossaryentry{temperature}
+{
+	name={\ensuremath{T}},
+	description={Temperature}
+}
+\newglossaryentry{timestep}
+{
+	name={\ensuremath{t_n}},
+	description={Time-step \ensuremath{n}}
+}
+\newglossaryentry{heatcoefficient}
+{
+	name={\ensuremath{c_{p}}},
+	description={Heat coefficient at constant pressure}
+}
+\newglossaryentry{activationenergy}
+{
+	name={\ensuremath{E_{ac}\, / \, Q\, / \, G}},
+	description={Activation energy for self-difussion, Gibbs free energy},
+	text={\ensuremath{E_{ac}}},
+}
+\newglossaryentry{yieldstress}
+{
+	name={\ensuremath{\sigma_{Y}}},
+	description={Yield stress}
+}
+\newglossaryentry{shearmodulus}
+{
+	name={\ensuremath{G}},
+	description={Shear modulus}
+}
+\newglossaryentry{decaytime}
+{
+	name={\ensuremath{t_d}},
+	description={Exponential decay time}
 }
