@@ -1,6 +1,6 @@
 \chapter{An overview of \LaTeX}
 
-In this section, a few basic tools will be presented. In following sections more advance functionality and complex tools will be showcased. \textbf{Use this as examples and to your advantage!}
+In this section, a few basic tools will be presented. In following sections more advance functionality and complex tools will be showcased. \textbf{Use this guide as an example and to your advantage!}
 
 \textsc{\color{red}Important:} this template uses Lua\LaTeX, a modern \LaTeX\ engine. You should setup your editor to use Lua\LaTeX, otherwise it will not be able to generate the document. Overleaf, for example, does not change the \LaTeX\ engine automatically, so you have to do it yourself (it is very easy!).
 
@@ -9,7 +9,7 @@ In this section, a few basic tools will be presented. In following sections more
 	\item \href{https://en.wikibooks.org/wiki/LaTeX}{\LaTeX's Wikibook}
 	\item \href{https://www.overleaf.com/learn}{Overleaf's \LaTeX\ resources}
 	\item \href{https://www.ctan.org/tex-archive/info/lshort/english/}{The not so short introduction to \LaTeX} book
-	\item {\color{red} The packages manuals!}
+	\item {\color{red} The packages' manuals!}
 	\item Any searh engine.
 \end{itemize}
 
@@ -46,19 +46,115 @@ The following table showcases some of the more common text styles in \LaTeX.
 For this template, which is based in the \texttt{book} class, we have the following major sections:
 
 \begin{enumerate}
-	\item \verb|\part{}|: Parts are fully self-contained portions of information. They leave a full blank page with only the title of the part. \textbf{This is not used and not recommended!}
+	\item \verb|\part{}|: Parts are fully self-contained portions of information. They leave a full blank page with only the title of the part. \textbf{This is not used in this template and not recommended!}
 	\item \verb|\chapter{}|: Your normal chapters, as you can see above. We are in the ``\emph{An overview of \LaTeX }.''
 	\item \verb|\section{}|: Normal sections for a chapter. We are in ``\emph{Basics of \LaTeX}.''
 	\item \verb|\subsection{}|: Subsections. We are in ``\emph{Structure of a \LaTeX\ document}.''
-	\item \verb|\subsubsection{}|: Subsubsections. This level tends to be quite deep and will most likely not appear in the index unless we include \verb|\setcounter{secnumdepth}{3}| in the preamble\footnote{The preamble is the part before \texttt{\textbackslash begin\{document\}}, basically, the setup section.}.
+	\item \verb|\subsubsection{}|: Subsubsections. This level tends to be quite deep and will most likely not appear in the index unless we include \verb|\setcounter{secnumdepth}{3}|\footnote{There is also \texttt{tocdepth}, which only affects the Table of Contents.} in the preamble\footnote{The preamble is the part before \texttt{\textbackslash begin\{document\}}, basically, the setup section.}.
 	\item \verb|\paragraph{}|: One step deeper. By default paragraphs are not numbered.
 \end{enumerate}
 
-You jus have to write what you want between the \verb|{}| for each command, and \LaTeX\ does the rest. It typsets the titles/sections, it adds them to the table of contents and numbers them consistently!
+You just have to write what you want between the \verb|{}| for each command, and \LaTeX\ does the rest. It typsets the titles/sections, it adds them to the table of contents and numbers them consistently!
+
+\subsection{Structure of a \LaTeX\ paragraph}
+
+\LaTeX\ gives us full control on how paragraphs appear in our text, but it is not obvious to know how to control such appearance.
+
+Paragraphs can be separated by a simple empty line between themselves, with a double backslash \verb|\\| or both. However, the results these methods produce is different. Lets take a look
+
+\begin{lstlisting}[language={[LaTeX]TeX}]
+This is a test without double backslash. Take a look at how the next paragraph is indented. This is the main difference with respect to the next method shown below.
+
+This would be the beginning of the new paragraph. There is no blank line with the previous one.
+\end{lstlisting}
+
+This is a test without double backslash. Take a look at how the next paragraph is indented. This is the main difference with respect to the next method shown below.
+
+This would be the beginning of the new paragraph. There is no blank line with the previous one.
+
+\begin{lstlisting}[language={[LaTeX]TeX}]
+Now, lets see how the new paragraph is formated when we end this paragraph with a double backslash (\verb|\\|) and without an empty line. \\
+This would be the beginning of the new paragraph. This paragraph was not indented.
+\end{lstlisting}
+
+Now, lets see how the new paragraph is formated when we end this paragraph with a double backslash (\verb|\\|) and without an empty line. \\
+This would be the beginning of the new paragraph. This paragraph was not indented.
+
+\begin{lstlisting}[language={[LaTeX]TeX}]
+Now, lets see how the new paragraph is formated when we end this paragraph with a double backslash (\verb|\\|) and an empty line. \\
+
+This would be the beginning of the new paragraph.
+\end{lstlisting}
+
+Now, lets see how the new paragraph is formated when we end this paragraph with a double backslash (\verb|\\|) and an empty line. \\
+
+This would be the beginning of the new paragraph.
+
+\subsection{Enumerations, bullet points and descriptions in \LaTeX}
+
+Enumerated lists can be created with the \verb|enumerate| environment.
+
+\begin{enumerate}
+		\item First item.
+		\item Second one.
+	\begin{enumerate}
+			\item Going deeeeper.
+	\end{enumerate}
+		\item Third.
+\end{enumerate}
+
+\begin{lstlisting}[language={[LaTeX]TeX}]
+\begin{enumerate}
+		\item First item.
+		\item Second one.
+	\begin{enumerate}
+			\item Going deeeeper.
+	\end{enumerate}
+		\item Third.
+\end{enumerate}
+\end{lstlisting}
+
+Bullet points or lists can be created with the \verb|itemize| environment. The structure is the same as the \verb|enumerate| environment!
+
+\begin{itemize}
+		\item First item.
+		\item Second one.
+	\begin{itemize}
+			\item Going deeeeper.
+	\end{itemize}
+		\item Third.
+\end{itemize}
+
+\begin{lstlisting}[language={[LaTeX]TeX}]
+\begin{itemize}
+		\item First item.
+		\item Second one.
+	\begin{itemize}
+			\item Going deeeeper.
+	\end{itemize}
+		\item Third.
+\end{itemize}
+\end{lstlisting}
+
+Descriptions are quite nice is you need to descrive different concepts. They are created with the \verb|description| environment and the \verb|\item| entry requires the optional argument: \verb|\item[Some text]|.
+
+\begin{description}
+		\item[My favourite] First item. Lets write some more text to see the full formatting of the \verb|description| environment.
+		\item[Continuation] Second one.
+		\item[Finally] Third.
+\end{description}
+
+\begin{lstlisting}[language={[LaTeX]TeX}]
+\begin{description}
+		\item[My favourite] First item. Lets write some more text to see the full formatting of the \verb|description| environment.
+		\item[Continuation] Second one.
+		\item[Finally] Third.
+\end{description}
+\end{lstlisting}
 
 \subsection{Mathematical notation}
 
-\LaTeX\ provides several way to include symbols and write maths. The most basic way is to include mathematical notation or symbols into the text. This is known as \emph{inline} and can be done with \verb|$...$|. Whatever is between the \$ symbols, is typeset in mathematical notation. This is an example: $2 = \frac{4}{2}$. This is produced using \verb|$2 = \frac{4}{2}$|.
+\LaTeX\ provides several way to include symbols and write mathematical formulas. The most basic way is to include mathematical notation or symbols into the text. This is known as \emph{inline} and can be done with \verb|$...$|. Whatever is between the \$ symbols, is typeset in mathematical notation. This is an example: $2 = \frac{4}{2}$. This is produced using \verb|$2 = \frac{4}{2}$|.
 
 Another method is to write mathematical formulas in \emph{display} mode, which is separated from the text. This can be done by wrapping the text in \verb|\[...\]|. \textbf{This is not recommended} as the next method is better. Here is an example:
 
@@ -80,7 +176,7 @@ The equation above, \cref{eq:simpleeq}, is produced by writing:
 \end{equation}
 \end{lstlisting}
 
-Lets showcase some more environments that help us write beautiful formulas! The \verb|\begin{array}| environment helps us write vertically aligned formulas!
+Lets showcase more environments that help us write beautiful formulas! The \verb|\begin{array}| environment helps us write vertically aligned formulas!
 
 \begin{equation} \label{eq:abaqus-exponential-decay}
 f(t) = \left\{
@@ -191,7 +287,7 @@ Bibliography management is another strong point of \LaTeX! We just need to add b
 
 In order to cite the entry we just have to use \verb|\cite{}| with the entry's identifier, like so \verb|\cite{lovecraft2016el}| \cite{lovecraft2016el}. We can also have multiple cites in the same command, \cite{lovecraft2016el,norton_creep} (\verb|\cite{lovecraft2016el,norton_creep}|). It is that simple! They get automatically printed in the bibliography section.
 
-\textsc{\color{red}Important:} this template uses \texttt{biblatex} as the management system, which is a powerful, flexible and modern tool. Therefore, you will need to run the \texttt{biber} command to build the bibliography after the first compilation of your document; then you will have to recompile after \texttt{biber} has run. Most editors do this by default.
+\textsc{\color{red}Important:} this template uses \texttt{biblatex} as the management system, which is a powerful, flexible and modern tool. Therefore, you will need to run the \texttt{biber} command to build the bibliography after the first compilation of your document; then you will have to recompile the document after \texttt{biber} has run. Most editors do this by default.
 
 You can also use third-party tools like Zotero\footnote{\url{https://www.zotero.org/}} to manage your \verb|.bib| database. Most bibliography management tools are capable of dealing with \verb|.bib| entries!
 
@@ -203,7 +299,7 @@ Sooo... How do we solve \LaTeX\ moving our floating environments? Here are a few
 
 \begin{itemize}
 	\item We don't solve it. \LaTeX\ referencing tools allow us to easily point the reader to the table, image, etc. Therefore, it is not that problematic that the \emph{floats} may not be where we put them!
-	\item We can ask \LaTeX\ to try to place the image where it appears in our document. This is done with the \emph{``here''} \verb|[h]| placement modifier, more on placement modifiers later. \textbf{This is not a definitive solution.} This will just tell \LaTeX\ to try hard to do what we are asking. There is the \verb|[h!]| modifier, which is even stronger.
+	\item We can ask \LaTeX\ to try to place the image where it appears in our document. This is done with the \emph{``here''} \verb|[h]| placement modifier. More on placement modifiers later. \textbf{This is not a definitive solution.} This will just tell \LaTeX\ to try hard to do what we are asking. There is the \verb|[h!]| modifier, which is even stronger.
 	\item \textbf{A really good solution is to use} \verb|\FloatBarrier|. It comes from the \verb|placeins| package, included in this template. \verb|\FloatBarrier| forces \LaTeX\ to put all floating environment that have already appeared before the position where \verb|\FloatBarrier| appears. This is very useful to force \LaTeX\ to put all floats before another section that may not be related to the topic of those floats. Here is an example:
 
 \begin{lstlisting}[language={[LaTeX]TeX}]
@@ -240,7 +336,7 @@ Now, how do we actually include figures, tables, etc? They all follow the same s
 \end{lstlisting}
 	The key here is \verb|\includegraphics|, it is what loads the graphics and allows us to set its properties. The above example is rather complex, most times you do not need these many options. Nonetheless, here is what they do:
 	\begin{description}
-			\item[\texttt{keepaspectratio}] Keeps the size ratio of the image. Very useful if you set \verb|height| and \verb|width| at the same time.
+			\item[\texttt{keepaspectratio}] Keeps the size ratio of the image. Very useful if you set \verb|height| and \verb|width| at the same time. \verb|\includegraphics| will use the most restrictive length to size the image.
 			\item[\texttt{trim}] It allows us to trim/cut the image. It cuts X amount of pixels from the \texttt{left, bottom, right, top}. This is useful if your image is too large and you only care about a small portion of it.
 			\item[\texttt{clip}] Only show the trimmed image.
 			\item[\texttt{width} and \texttt{height}] Sets the maximum size with respect to the width and height. We use \verb|\linewidth| and \verb|\textheight| to limit the size of the image in the page by using the page's natural lengths.
@@ -257,7 +353,7 @@ Now, how do we actually include figures, tables, etc? They all follow the same s
 	  Heading 1 & Heading 2 & Heading 3 \\
 	  \midrule
 	  Left aligned & Center aligned & Right aligned \\
-	  \cmidrule{2-3} % Example of a controled rule
+	  \cmidrule{2-3} % Example of a defined size rule
 	  Some info & Some info & Some info \\
 	  \bottomrule
 	\end{tabular}
@@ -265,10 +361,12 @@ Now, how do we actually include figures, tables, etc? They all follow the same s
 	\label{tab:example-table}
 \end{table}
 \end{lstlisting}
-	\textsc{\color{red}Important:} the \texttt{\&} symbol is used as a column separator in all alignment environments!
+	\textsc{\color{red}Important:} the \texttt{\&} symbol is used as a column separator in all alignment environments! Go back to the mathematical environments and see if you can see its use there.
 
 	The column alingment options for the tabular environment can be \texttt{l, c, r, m{}} or \texttt{p{}} among others. They refer to left, center, right alignment and the \texttt{m{}} and \texttt{p{}} refer to a limited size column whose vertical alignment is either centered or natural. You could use them as \verb|m{0.3\linewidth}| for example. If you want to aling the text horizontally with \texttt{m} or \texttt{p} you would write \verb|>{\centering\arraybackslash}m{0.3\linewidth}|. You can change the \verb|\centering| for a \verb|\raggedright| for a right aligned column. But this is getting too advance!
-	One final bit of knowledge about very long tables and dynamicly sized columns. This template includes the package \texttt{xltabular}, which includes the well-known \verb|tabularx| environment and merges it with the \verb|longtable| environment (for tables that can span more than one page) generating its own \verb|xltabular| envrionment. Please red the documentation of the \texttt{tabularx}, \verb|longtable| and \verb|xltabular| if you need to build complex tables!
+	One final bit of knowledge about very long tables and dynamicly sized columns. This template includes the package \texttt{xltabular}, which includes the well-known \verb|tabularx| environment and merges it with the \verb|longtable| environment (for tables that can span more than one page) generating its own \verb|xltabular| envrionment. Please read the documentation of the \texttt{tabularx}, \verb|longtable| and \verb|xltabular| packages if you need to build complex tables!
+
+	There are also two packages \verb|multicolumn| and \verb|multirow| that allows the content of a cell to span several columns/rows. These packages are included in this template. Take a look at their documentation.
 
 	Also, \textbf{there are online tools to help you generate \LaTeX\ tables from Excel sheets}. One such example (which I am not very familiar with nor endorse) is \href{https://tableconvert.com/excel-to-latex}{Tableconvert}.
 
@@ -297,6 +395,8 @@ Now, how do we actually include figures, tables, etc? They all follow the same s
 	\label{tab:example-table}
 \end{table}
 
+\FloatBarrier
+
 \section{Glossaries}\label{sec:glossaries}
 
 Creating glossaries in \LaTeX\ is surprisingly easy. However, it does require a bit of understanding.
@@ -316,13 +416,13 @@ For glossary entries we use the \verb|\newglossaryentry{}{...}| command. Here is
 }
 \end{lstlisting}
 
-For acronyms, we could use the code above, but there is a simpler and more direct way of doing it with \verb|\newabbreviation{}{}{}|. Here is how it works:
+For acronyms, we could use the code above, but there is a simpler and more direct way of doing it with \verb|\newabbreviation[]{}{}{}|. Here is how it works:
 
 \begin{lstlisting}[language={[LaTeX]TeX}]
 \newabbreviation{Identifier}{ACRONYM}{Description Of Acronym}
 \end{lstlisting}
 
-\verb|\newabbreviation[]| supports a long set of options. For example, the \verb|longplural={...}| option allows us to write the plural form in case it is more refined. There are many other options. The abbreviation functionality is provided by the \verb|glossaries-extra| package.
+\verb|\newabbreviation[]| supports a long set of options. For example, the \verb|[longplural={...}]| option allows us to write the plural form in case it is more refined. There are many other options. The abbreviation functionality is provided by the \verb|glossaries-extra| package.
 
 Once your own personal entries have been created, you can use them with the following commands.
 
@@ -352,9 +452,11 @@ Once your own personal entries have been created, you can use them with the foll
 	\label{tab:glossaries}
 \end{table}
 
+\FloatBarrier
+
 Wait, what happened in the second \verb|\gls{FEM}| entry in the acronym section? Why did it produce a different result (\verb|\glsxtrshort{FEM}|) when compared to the first one (\verb|\glsxtrfull{FEM}|)?
 
-Simple: this template uses the \verb|\setabbreviationstyle[acronym]{long-short}| style. The first time an acronym is used, it will show the full form. After that, the short form is used. All of this automatically! Isn't this magical? If you would like to show always the short form, you can delete that line from the \texttt{report.tex} or use \verb|\setabbreviationstyle[acronym]{short-nolong}| (or any other style that you like!).
+Simple. This template uses the \verb|\setabbreviationstyle[acronym]{long-short}| style. The first time an acronym is used, it will show the full form. After that, the short form is used. All of this automatically! Isn't this magical? If you would like to show always the short form, you can delete that line from the \texttt{report.tex} or use \verb|\setabbreviationstyle[acronym]{short-nolong}| (or any other style that you like!).
 
 \textsc{\color{red}Important:} in order to show the list of glossaries and acronyms in their table of contents, you will have to run \verb|makeglossaires|. Some editors will do that automatically for you, as they will detect you have a glossary in your document.
 
@@ -459,6 +561,89 @@ Whats even cooler is that \verb|pgfplotstable| uses the package \verb|siunitx| t
 
 \LaTeX\ will automatically break some words or numbers in order to have a nice layout of the paragraph. However, sometime we don't want that. This can be solved with \verb|\mbox{XXX}|. This, however, may generate unexpecte behaviour! For example: \mbox{\texttt{XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX}}.
 
+\subsection[Can I put two figures, tables, etc; side to side?]{Can I put two figures, tables, etc; side to side? One on the left page and another thing on the right page.}
+
+Yes! With the package \verb|dpfloat|, included in the template. \textbf{However, it can generate a lot of errors} if \LaTeX\ cannot put enough text around the floating environments\footnote{The error tends to be \texttt{Output loop---100 consecutive dead cycles.}}. The easiest solution is to write a bit more text or place the floats more deeply into your text.
+
+Here is a demonstration of an example from my thesis. Inside your \texttt{figure, table, etc}, use the \verb|leftfullpage| environment around the contents to place something in the left page. Then in the next float environment, which should be written directly next to the previous one, use the \verb|fullpage| environment. Here is an example with \cref{fig:boundary-conditions} and \cref{tab:fem-steps}.
+
+\begin{lstlisting}[language={[LaTeX]TeX}]
+\begin{figure}
+	\begin{leftfullpage} % Place in the left page
+	\centering
+	\def\svgwidth{0.6\linewidth}
+	\import{Data}{BCs.pdf_tex} % Import LaTeX graphics generated by Inkscape!
+	\caption[\glsentryname{FEM} boundary conditions.]{Boundary conditions applied on the monoblock.}
+	\label{fig:boundary-conditions}
+	\end{leftfullpage}
+\end{figure}
+\end{lstlisting}
+
+\begin{figure}
+	\begin{leftfullpage} % Place in the left page
+	\centering
+	\def\svgwidth{0.6\linewidth}
+	\import{Data}{BCs.pdf_tex} % Import LaTeX graphics generated by Inkscape!
+	\caption[\glsentryname{FEM} boundary conditions.]{Boundary conditions applied on the monoblock.}
+	\label{fig:boundary-conditions}
+	\end{leftfullpage}
+\end{figure}
+
+\begin{lstlisting}[language={[LaTeX]TeX}]
+\begin{table}
+	\begin{fullpage} % Put it in a right page
+			\centering
+			\footnotesize 		\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X}
+			  \toprule
+			  & Pressure increase & Exponential drop of temperature & Rapid drop of temperature & Cutting of cooling pipe & Cutting of the part \\
+			  \cmidrule(r){2-4} \cmidrule(l){5-6}
+			  Duration & \qty{10}{\second} & \qty{55000}{\second} & \qty{1000}{\second} & \qty{1}{\second} & \qty{1}{\second} \\
+			  \midrule
+			  Temperature  & \qty{580}{\celsius} & \qtyrange[range-units=single]{580}{76}{\celsius} & \qtyrange[range-units=single]{76}{20}{\celsius} & \qty{20}{\celsius} & \qty{20}{\celsius} \\
+			  \midrule
+			  .
+			  .
+			  .
+			  \bottomrule
+			\end{tabularx}
+			\caption{Simulated steps and their boundary conditions.}
+			\label{tab:fem-steps}
+	\end{fullpage}
+\end{table}
+\end{lstlisting}
+
+\begin{table}
+	\begin{fullpage} % Put it in a right page
+			\centering
+			\footnotesize 	\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X}
+			  \toprule
+			  & Pressure increase & Exponential drop of temperature & Rapid drop of temperature & Cutting of cooling pipe & Cutting of the part \\
+			  \cmidrule(r){2-4} \cmidrule(l){5-6}
+			  Duration & \qty{10}{\second} & \qty{55000}{\second} & \qty{1000}{\second} & \qty{1}{\second} & \qty{1}{\second} \\
+			  \midrule
+			  Temperature  & \qty{580}{\celsius} & \qtyrange[range-units=single]{580}{76}{\celsius} & \qtyrange[range-units=single]{76}{20}{\celsius} & \qty{20}{\celsius} & \qty{20}{\celsius} \\
+			  \midrule
+			  \glsxtrshort{HRP} pressure & \qtyrange[range-units=single]{0}{10}{\mega\pascal} & \qty{10}{\mega\pascal} & \qtyrange[range-units=single]{10}{0}{\mega\pascal} & --- & --- \\
+			  \midrule
+			  Tie constrains & \checkmark & \checkmark & \checkmark & \checkmark &  \checkmark \\
+			  \midrule
+			  X Symmetry plane & \checkmark & \checkmark & \checkmark & \checkmark &  \checkmark \\
+			  Z Symmetry plane & \checkmark & \checkmark & \checkmark & \checkmark &  \checkmark \\
+			  Y = 0 \mbox{bottom plane} & \checkmark & \checkmark & \checkmark & \checkmark & ---  \\
+			  \midrule
+			  Planar \glsxtrshort{BC} & \checkmark & \checkmark & \checkmark & ---  & --- \\
+			  \midrule
+			  Vertical fix of top and bottom center point & --- & --- & --- & --- & \checkmark \\
+			  \bottomrule
+			\end{tabularx}
+			\caption{Simulated steps and their boundary conditions.}
+			\label{tab:fem-steps}
+	\end{fullpage}
+\end{table}
+
+\subsection{How can I edit graphics in \LaTeX?}
+
+In the \verb|figure| explanation at the beginning of the chapter I show how you can clip the graphics in \LaTeX. However, if you would like to add text, arrows and similar things to your graphics, \textbf{the best way is to use \href{https://inkscape.org/}{Inscape}}. It is a vector/image manipulation program that can ouput files to be loaded and typsetted by \LaTeX! You can see \cref{fig:boundary-conditions}, which is generated with Inkscape (file named \texttt{BCs.svg} in the \texttt{Data} directory). \href{https://tex.stackexchange.com/questions/151232/exporting-from-inkscape-to-latex-via-tikz}{This forum post} explains how to do it.
 % Emacs setup
 
 %%% Local Variables:
