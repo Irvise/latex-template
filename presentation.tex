@@ -29,6 +29,9 @@
 % Please, read the "loaded-thesis.sty" document to see what is actually loaded and how to use it. Some configuration options for a set of packages is also present there. Change those if you need it.
 \usepackage{loaded-thesis}
 
+%% References configuration
+\usepackage[nameinlink]{cleveref} % Better referencing that default LaTeX or \hyperref. Must be loaded after hyperref and asmmath
+
 %% Language configuration
 
 \usepackage[spanish, english]{babel}
@@ -68,10 +71,15 @@
 
 % Link colour setup. If you want colours, set "colorlinks" to "true"
 \hypersetup{
-	colorlinks = false,
+	colorlinks = true, % Colour links. Set to false to let the text be black
 	citecolor = red,
 	urlcolor = blue,
+	linkcolor = red,
+%	hidelinks = true, % Uncomment to hide all link indications, such as boxes
 } % Change this options to your liking
+
+%%% PGFplots version standard
+\pgfplotsset{compat=1.18} % Newest version as of 2022-09-23 is 1.18
 
 %%% Beamer theme
 \usetheme[block=fill]{metropolis}

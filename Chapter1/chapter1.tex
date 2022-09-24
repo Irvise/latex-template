@@ -740,7 +740,7 @@ We can also do 3D plots! The plot in \cref{fig:3d-plot} uses glossaries in its e
 				at={(axis cs:12500, 80)}, anchor=south west
 			}
 			]
-			
+
 			% Add a legend title
 			\addlegendimage{empty legend}
 			\addlegendentry[text width=0.2\textwidth, align=center]{\textbf{Stress}}
@@ -783,10 +783,10 @@ We can also do 3D plots! The plot in \cref{fig:3d-plot} uses glossaries in its e
 			ymax=120,
 			% Carefully position the legend
 			legend style={
-				at={(axis cs:12500, 80)}, anchor=south west 
+				at={(axis cs:12500, 80)}, anchor=south west
 			}
 			]
-			
+
 			% Add a legend title
 			\addlegendimage{empty legend}
 			\addlegendentry[text width=0.2\textwidth, align=center]{\textbf{Stress}}
@@ -799,7 +799,6 @@ We can also do 3D plots! The plot in \cref{fig:3d-plot} uses glossaries in its e
 			% And the file with the data
 			{Data/Creep-Cu-external-PEEQ-S-TEMP.csv};
 			\addlegendentry{Cu-e}
-
 			\addplot [
 			thick,
 			color=green!60!black
@@ -814,8 +813,343 @@ We can also do 3D plots! The plot in \cref{fig:3d-plot} uses glossaries in its e
 \end{figure}
 \end{TeXlstlisting}
 
-\subsection{Groupped plots}
+\subsection{Grouped plots}
 
+Finally, lets showcase how grouped plots work. In the following example, we use the \verb|groupplot| environment instead of the \verb|axis| one. Then using the \verb|\nextgroupplot[]| command, we can configure the next plot that will be shown.
+
+On top of showcasing how groupplots work, the following example also showcases how to write text on top of the plot and how to colour the background. This process is automated for all plots by defining the anotations and background as a global setting that then we add to each plot.
+
+This example may seem overwhelming, but there is a lot of repetition, so do not fear it and read the comments in the code!
+
+%% Define some constants that will be used in all plots, so that we don't have to repeat ourselves!
+% Color and background definition
+\definecolor{W}{RGB}{161, 51, 51}
+\definecolor{Cu}{RGB}{211, 211, 190}
+\definecolor{CuCrZr}{RGB}{45, 91, 76}
+
+% Define the background colour and the text that will be used in all plots
+% The distance set in the coordinates are relative axis.
+% This means that it is relative to the size of the plot, which allows it to be reused in all plots!
+\newcommand{\ColourMaterialBackground}{
+	\begin{pgfonlayer}{axis background}
+		% Tungsten
+		\fill[shade, top color=W!20, bottom color=W!5]
+		(rel axis cs:0,0)--(rel axis cs:0.762,0)--
+		(rel axis cs:0.762,1)--(rel axis cs:0,1)--cycle;
+		% Copper
+		\fill[shade, top color=Cu!20, bottom color=Cu!5]
+		(rel axis cs:0.762,0)--(rel axis cs:0.857,0)--
+		(rel axis cs:0.857,1)--(rel axis cs:0.762,1)--cycle;
+		% CuCrZr
+		\fill[shade, top color=CuCrZr!20, bottom color=CuCrZr!5]
+		(rel axis cs:0.857,0)--(rel axis cs:1,0)--
+		(rel axis cs:1,1)--(rel axis cs:0.857,1)--cycle;
+	\end{pgfonlayer}
+	% Add text to the plot
+	\node[anchor = south] at (axis cs: 4, 200) {\small W};
+	\node[anchor = south] at (axis cs: 8.5, 200) {\small Cu};
+	\node[anchor = north, text centered, text width = 15pt] at (axis cs: 9.75, 200) {\small Cu Cr Zr};
+}
+
+\begin{figure}[h]
+	\centering
+	\begin{tikzpicture}
+		% Create group plot
+		\begin{groupplot}[
+			% Begin configuring how the plots are grouped
+			group style = {
+				group size = 2 by 2,
+				horizontal sep = 10pt, % Horizontal distance
+				ylabels at = edge left, % Where the y label should appear
+				y descriptions at = edge left, % Same
+				x descriptions at = edge bottom, % Only show abcissa at the bottom
+				vertical sep = 10pt % Vertical disctance
+			},
+			% Here the common axis settings for all plots are given
+			title style={text width=0.4\textwidth, align=center,},
+			width=0.52\textwidth,
+			grid=major,
+			xlabel={Depth [mm]},
+			enlarge x limits=false,
+			ylabel near ticks
+			]
+
+			% First plot
+			\nextgroupplot[
+			% Title of first plot
+			title={Stress distribution, edge line (green).},
+			% Y label for the first plot
+			ylabel={\gls{stressdevia} [\unit{\mega\pascal}]},
+			% Set min and max values to make it share boundaries with the next plot
+			ymin=0,
+			ymax=500,
+			% Position legend
+			legend pos=north west,
+			legend cell align=left,
+			% VERY IMPORTANT. We need the layers to paint the backgound
+			set layers
+			]
+
+			% Add plots as you would normally do
+			\addplot [
+			thick,
+			blue
+			] table
+			[col sep=semicolon, x index=0, y index = 1, header=false]
+			{Data/Mises-no-creep-ext-ext2-internal.csv};
+			\addlegendentry{Without creep}
+			\addplot [
+			thick,
+			red
+			] table
+			[col sep=semicolon, x index=0, y index = 1, header=false]
+			{Data/Mises-creep-ext-ext2-internal.csv};
+			\addlegendentry{With creep}
+			% Add the background and annotations
+			\ColourMaterialBackground
+
+			% Next plot!
+			\nextgroupplot[
+			% Set its title
+			title={Stress distribution, center line (purple).},
+			% Set the same min and max as before!
+			ymin=0,
+			ymax=500,
+			% Once again, we need the layers!
+			set layers
+			]
+
+			\addplot [
+			thick,
+			blue
+			] table
+			[col sep=semicolon, x index=0, y index = 5, header=false]
+			{Data/Mises-no-creep-ext-ext2-internal.csv};
+			\addplot [
+			thick,
+			red
+			] table
+			[col sep=semicolon, x index=0, y index = 5, header=false]
+			{Data/Mises-creep-ext-ext2-internal.csv};
+			% Add background and annotations
+			\ColourMaterialBackground
+
+			% Third plot
+			\nextgroupplot[
+			ylabel={$\sigma_{Hoop}$ [\unit{\mega\pascal}]},
+			ymax=575,
+			ymin=-400,
+			% Once again, we need to activate layer manipulation
+			set layers
+			]
+
+			\addplot [
+			thick,
+			blue
+			] table
+			[col sep=semicolon, x index=0, y index = 3, header=false]
+			{Data/Hoop-no-creep-ext-ext2-internal.csv};
+			\addplot [
+			thick,
+			red
+			] table[col sep=semicolon, x index=0, y index = 3, header=false]
+			{Data/Hoop-creep-ext-ext2-internal.csv};
+			% Add background and annotations
+			\ColourMaterialBackground
+
+			% Fourth and final plot!
+			\nextgroupplot[
+			ymax=575,
+			ymin=-400,
+			% Activate layers
+			set layers
+			]
+
+			\addplot [
+			thick,
+			blue
+			] table
+			[col sep=semicolon, x index=0, y index = 5, header=false]
+			{Data/Hoop-no-creep-ext-ext2-internal.csv};
+			\addplot [
+			thick,
+			red
+			] table
+			[col sep=semicolon, x index=0, y index = 5, header=false]
+			{Data/Hoop-creep-ext-ext2-internal.csv};
+			% Add background and annotations
+			\ColourMaterialBackground
+		\end{groupplot}
+	\end{tikzpicture}
+	\caption[Mises and hoop stress comparison between the model without creep and the one with creep in \glsentryname{Cu-OFHC}.]{Mises and hoop stress comparison between the model without creep and the one with creep in \glsxtrshort{Cu-OFHC}.}
+	\label{fig:plot-stress-creep-no-creep}
+\end{figure}
+
+\begin{TeXlstlisting}
+%% Define some constants that will be used in all plots, so that we don't have to repeat ourselves!
+% Color and background definition
+\definecolor{W}{RGB}{161, 51, 51}
+\definecolor{Cu}{RGB}{211, 211, 190}
+\definecolor{CuCrZr}{RGB}{45, 91, 76}
+
+% Define the background colour and the text that will be used in all plots
+% The distance set in the coordinates are relative axis.
+% This means that it is relative to the size of the plot, which allows it to be reused in all plots!
+\newcommand{\ColourMaterialBackground}{
+	\begin{pgfonlayer}{axis background}
+		% Tungsten
+		\fill[shade, top color=W!20, bottom color=W!5]
+		(rel axis cs:0,0)--(rel axis cs:0.762,0)--
+		(rel axis cs:0.762,1)--(rel axis cs:0,1)--cycle;
+		% Copper
+		\fill[shade, top color=Cu!20, bottom color=Cu!5]
+		(rel axis cs:0.762,0)--(rel axis cs:0.857,0)--
+		(rel axis cs:0.857,1)--(rel axis cs:0.762,1)--cycle;
+		% CuCrZr
+		\fill[shade, top color=CuCrZr!20, bottom color=CuCrZr!5]
+		(rel axis cs:0.857,0)--(rel axis cs:1,0)--
+		(rel axis cs:1,1)--(rel axis cs:0.857,1)--cycle;
+	\end{pgfonlayer}
+	% Add text to the plot
+	\node[anchor = south] at (axis cs: 4, 200) {\small W};
+	\node[anchor = south] at (axis cs: 8.5, 200) {\small Cu};
+	\node[anchor = north, text centered, text width = 15pt] at (axis cs: 9.75, 200) {\small Cu Cr Zr};
+}
+
+\begin{figure}[h]
+	\centering
+	\begin{tikzpicture}
+		% Create group plot
+		\begin{groupplot}[
+			% Begin configuring how the plots are grouped
+			group style = {
+				group size = 2 by 2,
+				horizontal sep = 10pt, % Horizontal distance
+				ylabels at = edge left, % Where the y label should appear
+				y descriptions at = edge left, % Same
+				x descriptions at = edge bottom, % Only show abcissa at the bottom
+				vertical sep = 10pt % Vertical disctance
+			},
+			% Here the common axis settings for all plots are given
+			title style={text width=0.4\textwidth, align=center,},
+			width=0.52\textwidth,
+			grid=major,
+			xlabel={Depth [mm]},
+			enlarge x limits=false,
+			ylabel near ticks
+			]
+
+			% First plot
+			\nextgroupplot[
+			% Title of first plot
+			title={Stress distribution, edge line (green).},
+			% Y label for the first plot
+			ylabel={\gls{stressdevia} [\unit{\mega\pascal}]},
+			% Set min and max values to make it share boundaries with the next plot
+			ymin=0,
+			ymax=500,
+			% Position legend
+			legend pos=north west,
+			legend cell align=left,
+			% VERY IMPORTANT. We need the layers to paint the backgound
+			set layers
+			]
+
+			% Add plots as you would normally do
+			\addplot [
+			thick,
+			blue
+			] table
+			[col sep=semicolon, x index=0, y index = 1, header=false]
+			{Data/Mises-no-creep-ext-ext2-internal.csv};
+			\addlegendentry{Without creep}
+			\addplot [
+			thick,
+			red
+			] table
+			[col sep=semicolon, x index=0, y index = 1, header=false]
+			{Data/Mises-creep-ext-ext2-internal.csv};
+			\addlegendentry{With creep}
+			% Add the background and annotations
+			\ColourMaterialBackground
+
+			% Next plot!
+			\nextgroupplot[
+			% Set its title
+			title={Stress distribution, center line (purple).},
+			% Set the same min and max as before!
+			ymin=0,
+			ymax=500,
+			% Once again, we need the layers!
+			set layers
+			]
+
+			\addplot [
+			thick,
+			blue
+			] table
+			[col sep=semicolon, x index=0, y index = 5, header=false]
+			{Data/Mises-no-creep-ext-ext2-internal.csv};
+			\addplot [
+			thick,
+			red
+			] table
+			[col sep=semicolon, x index=0, y index = 5, header=false]
+			{Data/Mises-creep-ext-ext2-internal.csv};
+			% Add background and annotations
+			\ColourMaterialBackground
+
+			% Third plot
+			\nextgroupplot[
+			ylabel={$\sigma_{Hoop}$ [\unit{\mega\pascal}]},
+			ymax=575,
+			ymin=-400,
+			% Once again, we need to activate layer manipulation
+			set layers
+			]
+
+			\addplot [
+			thick,
+			blue
+			] table
+			[col sep=semicolon, x index=0, y index = 3, header=false]
+			{Data/Hoop-no-creep-ext-ext2-internal.csv};
+			\addplot [
+			thick,
+			red
+			] table[col sep=semicolon, x index=0, y index = 3, header=false]
+			{Data/Hoop-creep-ext-ext2-internal.csv};
+			% Add background and annotations
+			\ColourMaterialBackground
+
+			% Fourth and final plot!
+			\nextgroupplot[
+			ymax=575,
+			ymin=-400,
+			% Activate layers
+			set layers
+			]
+
+			\addplot [
+			thick,
+			blue
+			] table
+			[col sep=semicolon, x index=0, y index = 5, header=false]
+			{Data/Hoop-no-creep-ext-ext2-internal.csv};
+			\addplot [
+			thick,
+			red
+			] table
+			[col sep=semicolon, x index=0, y index = 5, header=false]
+			{Data/Hoop-creep-ext-ext2-internal.csv};
+			% Add background and annotations
+			\ColourMaterialBackground
+		\end{groupplot}
+	\end{tikzpicture}
+	\caption[Mises and hoop stress comparison between the model without creep and the one with creep in \glsentryname{Cu-OFHC}.]{Mises and hoop stress comparison between the model without creep and the one with creep in \glsxtrshort{Cu-OFHC}.}
+	\label{fig:plot-stress-creep-no-creep}
+\end{figure}
+\end{TeXlstlisting}
 
 \section{Automatic formatting of table data} \label{sec:pgfplotstable}
 
@@ -891,7 +1225,8 @@ Whats even cooler is that \verb|pgfplotstable| uses the package \verb|siunitx| t
 
 \begin{table}[h]
 	\newcommand{\prop}{Expansion}
-	\newcommand{\propunit}{[\unit{\milli\meter\per\celsius\per\milli\meter}]}
+
+\newcommand{\propunit}{[\unit{\milli\meter\per\celsius\per\milli\meter}]}
 	\centering
 	\pgfplotstabletypeset[
 	every head row/.append style={
@@ -908,10 +1243,189 @@ Whats even cooler is that \verb|pgfplotstable| uses the package \verb|siunitx| t
 	\label{tab:automatic-reading-csv}
 \end{table}
 
-\section{Some extra bits of knowledge}
+\section{Writing algorithms}
+
+Using the \verb|algorithm2e| package, we can format beautiful algorithms. Here is an example from my thesis. The algorithm is \cref{alg:fib-deletion} and the geometrical explanation is shown in \cref{fig:fib-geometry}. Also, notice that the algorithm is on a left page (even number) and the picture is on the right (odd number page). In \cref{sec:extra-bits} I explain how to achive this result. As always, \textsc{read the documentation of the package!}
+
+\begin{genericfloat} % I added this extra bit, because otherwise leftfullpage fails to work!
+	\begin{leftfullpage}
+		\begin{algorithm}[H]
+			\KwData{\texttt{USDFLD} input parameters, including field and time $(0 < t \leq 1)$ data}
+			\KwResult{Set the field and state to deleted if required}
+			\tcc{See \autoref{fig:fib-geometry} for a geometrical description of the algorithm}
+			\BlankLine
+			\tcc{Define geometrical parameters}
+			\Begin{
+				\tcc{User defined parameters}
+				$r_i := r_i$\tcc*[r]{Inner radius}
+				$r_o := r_o$\tcc*[r]{Outer radius}
+				$\vec{C} := \{C_x, C_y, C_z\}$\tcc*[r]{Cylinder center}
+				$\vec{V} := \{V_x, V_y, V_z\}$\tcc*[r]{Unit displacement vector}
+				\BlankLine
+				\tcc{Gauss element position, input from Abaqus}
+				$\vec{G} := \{G_x, G_y, G_z\}$\;
+				\BlankLine
+				\tcc{Computed location of cylinder at step time \gls{timestep}}
+				$\vec{C}^* := \vec{C} + \vec{V} \cdot \gls{timestep}$\;
+			}
+			\BlankLine
+			\tcc*[l]{Compute intersection of Gauss elements and geometry}
+			\Begin{
+				\tcc{Element distance from the center}
+				$\vec{D} := \vec{G} - \vec{C}^*$\;
+				\tcc{Project distance over to the displacement vector}
+				$m := \vec{D} \cdot \vec{V}$\;
+				\tcc{Check if the element is behind the advancing front}
+				\If{$m \leq 0.0$}{
+					\tcc{Distance from $\vec{G}$ to the cylinder axis}
+					$d := \| \vec{D} - m\cdot \vec{V} \|$\;
+					\tcc{Check if the Gauss element is between the radii}
+					\If{$d \leq r_o \wedge d \geq r_i$}{
+						Field$_G$ := 0\tcc*[r]{Disable element}
+						State$_G$ := 0\tcc*[r]{Set state to deleted}
+					}
+				}
+			}
+			\caption[Full logic used for the \glsentryname{FIB}--\glsentryname{DIC} element deletion operation.]{Full logic used for the \glsxtrshort{FIB}--\glsxtrshort{DIC} element deletion operation. The algorithm assumes the cylinder axis is the same as the displacement vector.}
+			\label{alg:fib-deletion}
+		\end{algorithm}
+	\end{leftfullpage}
+\end{genericfloat}
+
+\begin{figure}
+	\begin{fullpage}
+		\centering
+		\def\svgwidth{\linewidth}
+		\import{Data}{fib-vectors.pdf_tex}
+		\caption[Geometry description for element deletion in a \glsentryname{FIB}--\glsentryname{DIC} case.]{Geometry description for element deletion in a \glsxtrshort{FIB}--\glsxtrshort{DIC} case. In this example, $G_2$ would be considered outside of the geometry as its distance to the axis is smaller than $r_i$. $G_1$ is within $r_i$ and $r_o$ and behind $\vec{C}^*$ as $m \leq 0.0$, so it would have been deleted. We simplify the problem by assuming the cylinder's axis is the same as the displacement vector.}
+		\label{fig:fib-geometry}
+	\end{fullpage}
+\end{figure}
+
+\begin{TeXlstlisting}
+\begin{genericfloat} % I added this extra bit, because otherwise leftfullpage fails to work!
+	\begin{leftfullpage}
+		\begin{algorithm}[H]
+			\KwData{\texttt{USDFLD} input parameters, including field and time $(0 < t \leq 1)$ data}
+			\KwResult{Set the field and state to deleted if required}
+			\tcc{See \autoref{fig:fib-geometry} for a geometrical description of the algorithm}
+			\BlankLine
+			\tcc{Define geometrical parameters}
+			\Begin{
+				\tcc{User defined parameters}
+				$r_i := r_i$\tcc*[r]{Inner radius}
+				$r_o := r_o$\tcc*[r]{Outer radius}
+				$\vec{C} := \{C_x, C_y, C_z\}$\tcc*[r]{Cylinder center}
+				$\vec{V} := \{V_x, V_y, V_z\}$\tcc*[r]{Unit displacement vector}
+				\BlankLine
+				\tcc{Gauss element position, input from Abaqus}
+				$\vec{G} := \{G_x, G_y, G_z\}$\;
+				\BlankLine
+				\tcc{Computed location of cylinder at step time \gls{timestep}}
+				$\vec{C}^* := \vec{C} + \vec{V} \cdot \gls{timestep}$\;
+			}
+			\BlankLine
+			\tcc*[l]{Compute intersection of Gauss elements and geometry}
+			\Begin{
+				\tcc{Element distance from the center}
+				$\vec{D} := \vec{G} - \vec{C}^*$\;
+				\tcc{Project distance over to the displacement vector}
+				$m := \vec{D} \cdot \vec{V}$\;
+				\tcc{Check if the element is behind the advancing front}
+				\If{$m \leq 0.0$}{
+					\tcc{Distance from $\vec{G}$ to the cylinder axis}
+					$d := \| \vec{D} - m\cdot \vec{V} \|$\;
+					\tcc{Check if the Gauss element is between the radii}
+					\If{$d \leq r_o \wedge d \geq r_i$}{
+						Field$_G$ := 0\tcc*[r]{Disable element}
+						State$_G$ := 0\tcc*[r]{Set state to deleted}
+					}
+				}
+			}
+			\caption[Full logic used for the \glsentryname{FIB}--\glsentryname{DIC} element deletion operation.]{Full logic used for the \glsxtrshort{FIB}--\glsxtrshort{DIC} element deletion operation. The algorithm assumes the cylinder axis is the same as the displacement vector.}
+			\label{alg:fib-deletion}
+		\end{algorithm}
+	\end{leftfullpage}
+\end{genericfloat}
+\end{TeXlstlisting}
+
+\FloatBarrier
+
+\section{Some extra bits of knowledge} \label{sec:extra-bits}
 
 \subsection{Subcaptions, multiple floats together} \label{sec:subcaption}
 
+The \verb|subcaption| package, included in this template, allows us to display and label several floating entries in the same environment. Here is an example for figures:
+
+\begin{figure}[h]
+	\centering
+	\begin{subfigure}{0.3\textwidth}
+		\centering
+		\includegraphics[width=\hsize]{example-image-a}
+		\caption{Bird A}
+		\label{fig:bird-a}
+	\end{subfigure}
+	\hfill % Fill the horizontal space
+	\begin{subfigure}{0.3\textwidth}
+		\centering
+		\includegraphics[width=\hsize]{example-image-b}
+		\caption{Bird B}
+		\label{fig:bird-a}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}{0.3\textwidth}
+		\centering
+		\includegraphics[width=\hsize]{example-image-c}
+		\caption{Bird C}
+		\label{fig:bird-a}
+	\end{subfigure}
+	\caption{Birds. Taken from \href{https://tex.stackexchange.com/questions/343605/latex-code-for-subcaption-of-image}{this forum post}.}
+	\label{fig:birds-1}
+\end{figure}
+
+\begin{TeXlstlisting}
+\begin{figure}[h]
+	\centering
+	\begin{subfigure}{0.3\textwidth}
+		\centering
+		\includegraphics[width=\hsize]{example-image-a}
+		\caption{Bird A}
+		\label{fig:bird-a}
+	\end{subfigure}
+	\hfill % Fill the horizontal space
+	\begin{subfigure}{0.3\textwidth}
+		\centering
+		\includegraphics[width=\hsize]{example-image-b}
+		\caption{Bird B}
+		\label{fig:bird-a}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}{0.3\textwidth}
+		\centering
+		\includegraphics[width=\hsize]{example-image-c}
+		\caption{Bird C}
+		\label{fig:bird-a}
+	\end{subfigure}
+	\caption{Birds. Taken from \href{https://tex.stackexchange.com/questions/343605/latex-code-for-subcaption-of-image}{this forum post}.}
+	\label{fig:birds-1}
+\end{figure}
+\end{TeXlstlisting}
+
+\subsection{How do I change the colour of the citations/references?}
+
+This template by default uses colours for links so that you, the user, can distinguish them. However, colours may not be wanted. The colour setting are present in \texttt{report.tex}, under \verb|\hypersetup{}|. The defaults for this template are shown below.
+
+If you do not want colours set \verb|colorlinks| to \verb|false|. If you also dislike the boxes that appear in the PDF view, set \verb|hidelinks| to true (in this template, just uncomment the line!).
+
+\begin{TeXlstlisting}
+\hypersetup{
+	colorlinks = true, % Colour links. Set to false to let the text be black
+	citecolor = red,
+	urlcolor = blue,
+	linkcolor = red,
+%	hidelinks = true, % Uncomment to hide all link indications, such as boxes
+} % Change this options to your liking
+\end{TeXlstlisting}
 
 \subsection{How do I prevent \LaTeX\ from splitting a word, number, etc?}
 
