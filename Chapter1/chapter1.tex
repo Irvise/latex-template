@@ -346,7 +346,17 @@ Now, how do we actually include figures, tables, etc? They all follow the same s
 
 	Then we have \verb|\caption|, which is what adds the text to the image. We use \verb|\caption[]| here, to modify the text that will appear in the ``List of Figures'', as I do not want my acronym \texttt{FEM} to be linked there, and therefore I use \verb|\glsentryname| to control that. But more about acronyms and glossaries in \cref{sec:glossaries}
 	Finally, we have \verb|\label{}| is is what allows us to give an identifier to our image so that we can reference it.
-		\item[Tables] are fairly easy to do once we get used to their nature. It uses the \verb|table| floating environment with another environment that allows us to type tabulated data. A basic example is given below and shown in \cref{tab:example-table}.
+\end{description}
+
+\begin{figure}[h]
+	\centering % Center image horizontally
+	\includegraphics[keepaspectratio, trim = 1050 12 150 30, clip, width=0.5\linewidth, height=0.3\textheight]{Images/monoblock-material-overview-mesh.png}
+	\caption[Overview of \glsentryname{FEM} mesh used for the final analysis.]{Overview of \glsxtrshort{FEM} mesh used for the final analysis.}
+	\label{fig:monoblock-overview-mesh}
+\end{figure}
+
+\begin{description}
+	\item[Tables] are fairly easy to do once we get used to their nature. It uses the \verb|table| floating environment with another environment that allows us to type tabulated data. A basic example is given below and shown in \cref{tab:example-table}.
 \begin{lstlisting}[language={[LaTeX]TeX}]
 \begin{table}
 	\centering % To center the table
@@ -374,13 +384,6 @@ Now, how do we actually include figures, tables, etc? They all follow the same s
 
 	Finally, if you have \texttt{.csv} files or similar and you want to print them in your \LaTeX\ document, you can see \cref{sec:pgfplotstable}, which shows how \cref{tab:automatic-reading-csv} was automatically generated using \verb|pgfplotstable|.
 \end{description}
-
-\begin{figure}[h]
-	\centering % Center image horizontally
-	\includegraphics[keepaspectratio, trim = 1050 12 150 30, clip, width=0.5\linewidth, height=0.3\textheight]{Images/monoblock-material-overview-mesh.png}
-	\caption[Overview of \glsentryname{FEM} mesh used for the final analysis.]{Overview of \glsxtrshort{FEM} mesh used for the final analysis.}
-	\label{fig:monoblock-overview-mesh}
-\end{figure}
 
 \begin{table}[h]
 	\centering % To center the table
